@@ -1,0 +1,21 @@
+from django.contrib import admin
+from .models import Training, Certificate, Source
+
+
+@admin.register(Source)
+class SourceAdmin(admin.ModelAdmin):
+    list_display = ('name',)
+
+
+@admin.register(Training)
+class TrainingAdmin(admin.ModelAdmin):
+    list_display = ('title', 'source')
+    list_filter = ('source',)
+    search_fields = ('title',)
+
+
+@admin.register(Certificate)
+class CertificateAdmin(admin.ModelAdmin):
+    list_display = ('user', 'training', 'caption', 'issued_at')
+    list_filter = ('training', 'user')
+    search_fields = ('user__username', 'training__title', 'caption')

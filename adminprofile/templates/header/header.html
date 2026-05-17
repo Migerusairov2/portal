@@ -1,0 +1,58 @@
+<header class="main-header">
+    <div class="logo">_Miguel.Dev</div>
+
+    <nav class="modern-nav">
+        <ul>
+            <li><a href="{% url 'overview' %}">Overview</a></li>
+            <li><a href="{% url 'trainings' %}">Trainings & Certifications</a></li>
+            <li class="dropdown">
+                <div class="divider"></div>
+                <a>Reporting</a>
+                <ul class="dropdown-menu">
+                    <span>Reporting</span>
+                    <li><a href="#">Articles</a></li>
+                    <li><a href="#">Curriculums</a></li>
+                    <li><a href="#">Development</a></li>
+                </ul>
+            </li>
+            <li><a href="#" class="connect">
+                    Connect with me
+                </a>
+            </li>
+        </ul>
+
+    </nav>
+
+    <div class="header-actions">
+        <div class="icon-btn" title="Updates available">
+            <svg viewBox="0 0 16 16">
+                <path
+                    d="M8 16a2 2 0 001.985-1.75c.017-.147-.099-.25-.235-.25H6.25c-.136 0-.252.103-.235.25A2 2 0 008 16z">
+                </path>
+            </svg>
+            <div class="notif-dot"></div>
+        </div>
+
+        <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+            <!-- Moon -->
+            <svg class="moon-icon" viewBox="0 0 16 16">
+                <path
+                    d="M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786z">
+                </path>
+            </svg>
+
+            <!-- Sun -->
+            <svg class="sun-icon" viewBox="0 0 16 16">
+                <path d="M8 12a4 4 0 110-8 4 4 0 010 8z"></path>
+            </svg>
+        </button>
+
+        <a href="/profile" class="btn-connect">
+            Connect with me
+        </a>
+        <button class="burger" id="burgerBtn">
+            ☰
+        </button>
+    </div>
+
+</header>
