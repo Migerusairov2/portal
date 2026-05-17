@@ -125,7 +125,7 @@
             backdrop-filter: blur(12px);
             padding: 2rem;
             animation: floaty 6s ease-in-out infinite;
-            rotate: 10deg;
+            rotate: 5deg;
         }
 
         .card-dot {
@@ -152,8 +152,15 @@
         }
 
         @keyframes floaty {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-18px); }
+
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+
+            50% {
+                transform: translateY(-18px);
+            }
         }
 
         .hero-bg {
@@ -193,9 +200,17 @@
             animation: fadeUp 1s forwards;
         }
 
-        .delay-1 { animation-delay: 0.2s; }
-        .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
+        .delay-1 {
+            animation-delay: 0.2s;
+        }
+
+        .delay-2 {
+            animation-delay: 0.4s;
+        }
+
+        .delay-3 {
+            animation-delay: 0.6s;
+        }
 
         @keyframes fadeUp {
             to {
@@ -230,47 +245,53 @@
 
 <body>
 
-<!-- HERO -->
-<section class="hero">
+    <!-- HERO -->
+    <section class="hero">
 
-    <!-- BACKGROUND -->
-    <div class="hero-bg">
-        <div class="bg-glow blob-1"></div>
-        <div class="bg-glow blob-2"></div>
-    </div>
-
-    <!-- CONTENT -->
-    <div class="hero-container">
-
-        <!-- LEFT -->
-        <div>
-            <h1 class="hero-title fade-up delay-1">
-                Crafting Modern <span>Digital Experiences</span>
-            </h1>
-
-            <p class="hero-subtitle fade-up delay-2">
-                Building diverse projects improves programming skills, strengthens problem-solving,
-                and turns practice into real-world mastery.
-            </p>
-
-            <div class="hero-actions fade-up delay-3">
-                <a href="#" class="btn-primary">Explore Projects</a>
-                <a href="{% url 'overview' %}" class="btn-secondary">About Me</a>
-            </div>
+        <!-- BACKGROUND -->
+        <div class="hero-bg">
+            <div class="bg-glow blob-1"></div>
+            <div class="bg-glow blob-2"></div>
         </div>
 
-        <!-- RIGHT -->
-        <div class="hero-visual fade-up delay-2">
-            <div class="floating-card">
-                <div class="card-dot"></div>
-                <div class="card-line long"></div>
-                <div class="card-line short"></div>
-                <div class="card-line long"></div>
-            </div>
-        </div>
+        <!-- CONTENT -->
+        <div class="hero-container">
 
-    </div>
-</section>
+            <!-- LEFT -->
+            <div>
+                <h1 class="hero-title fade-up delay-1">
+                    Crafting Modern <span>Digital Experiences</span>
+                </h1>
+
+                <p class="hero-subtitle fade-up delay-2">
+                    Building diverse projects improves programming skills, strengthens problem-solving,
+                    and turns practice into real-world mastery.
+                </p>
+
+                <div class="hero-actions fade-up delay-3">
+                    <a href="#" class="btn-primary">Explore Projects</a>
+                    <a href="{% url 'overview' %}" class="btn-secondary">About Me</a>
+                </div>
+            </div>
+
+            <!-- RIGHT -->
+            <div class="hero-visual fade-up delay-2">
+                <div class="floating-card" style="background-color: #121358;">
+                    <div class="floating-card" style="background-color: #232F72;">
+                        <div class="floating-card">
+                            <div class="card-dot"></div>
+                            <div class="card-line long"></div>
+                            <div class="card-line short"></div>
+                            <div class="card-line long"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+    </section>
 
 </body>
+
 </html>
