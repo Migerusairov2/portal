@@ -1,22 +1,30 @@
 from django.shortcuts import render
+from django.http import HttpResponse
 from django.contrib.auth.models import User 
 from .models import Profile, Project, Trajectory, SocialMedia, GithubRepository, GithubCommit
 from django.db.models import Prefetch
 from django.core.management import call_command
+from django.shortcuts import redirect
 
 def admin_profile(request):
 
     superuser = User.objects.filter(is_superuser=True).first()
+
+    if not superuser:
+        text = "There's no Superuser created yet."
+        return HttpResponse(text)
+
     profile, created = Profile.objects.get_or_create(user=superuser)
     frameworks = profile.frameworks.all()
     languages = profile.languages.all()
     projects = Project.objects.filter(user=superuser).prefetch_related('languages_used', 'images')
     trajectories = Trajectory.objects.filter(user=superuser)
     social_medias = SocialMedia.objects.filter(user=superuser)
-    # query = request.GET.get('q')
 
     if request.GET.get('sync') == 'github':
         call_command('fetch_github_repos')
+
+        return redirect('/overview/?tab=repositories')
 
     repos = GithubRepository.objects.all().order_by('-stars')
     repos_by_date = GithubRepository.objects.prefetch_related(
@@ -25,6 +33,7 @@ def admin_profile(request):
             queryset=GithubCommit.objects.order_by("-date")
         )
     )
+    # query = request.GET.get('q')
     # if query:
     #     repos = repos.filter(name__icontains=query)
 
