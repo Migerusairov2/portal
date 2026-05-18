@@ -1068,9 +1068,9 @@
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                     <h2>Github Repositories</h2>
 
-                    <!-- <a href="#" class="btn-update" title="Update">
+                    <button  href="#" class="btn-update" id="repo-btn" title="Update">
                          update
-                    </a> -->
+                    </button >
 
                 </div>
                 <p>All public repositories link from github.</p>
@@ -1179,6 +1179,9 @@
     </footer> -->
 
     <script>
+        document.getElementById('repo-btn').addEventListener('click', function () {
+        window.location.href = "?sync=github";
+        });
         const themeBtn = document.getElementById('themeBtn');
         const body = document.body;
 
@@ -1195,7 +1198,6 @@
             }
         });
 
-        // Load Saved Theme
         if (localStorage.getItem('portfolio-theme') === 'light') {
             body.setAttribute('data-theme', 'light');
         }

@@ -2,7 +2,7 @@ from django.shortcuts import render
 from django.contrib.auth.models import User 
 from .models import Profile, Project, Trajectory, SocialMedia, GithubRepository, GithubCommit
 from django.db.models import Prefetch
-
+from django.core.management import call_command
 
 def admin_profile(request):
 
@@ -14,6 +14,9 @@ def admin_profile(request):
     trajectories = Trajectory.objects.filter(user=superuser)
     social_medias = SocialMedia.objects.filter(user=superuser)
     # query = request.GET.get('q')
+
+    if request.GET.get('sync') == 'github':
+        call_command('fetch_github_repos')
 
     repos = GithubRepository.objects.all().order_by('-stars')
     repos_by_date = GithubRepository.objects.prefetch_related(
