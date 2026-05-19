@@ -38,7 +38,7 @@ GITHUB_API = "https://api.github.com"
 
 def fetch_commits(owner, repo):
     url = f"{GITHUB_API}/repos/{owner}/{repo}/commits?per_page=100"
-    r = requests.get(url, headers=headers, timeout=10)
+    r = requests.get(url, headers=headers, timeout=30)
 
     if r.status_code != 200:
         return []

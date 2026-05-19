@@ -81,9 +81,7 @@ class GithubRepository(models.Model):
         blank=True
     )
     description = models.TextField(blank=True)
-    created_at = models.DateTimeField(
-        auto_now_add=True
-    )
+    pushed_at = models.DateTimeField(blank=True)
 
     def __str__(self):
         return self.name

@@ -27,7 +27,7 @@ def admin_profile(request):
         return redirect('/overview/?tab=repositories')
 
     repos = GithubRepository.objects.all().order_by('-stars')
-    repos_by_date = GithubRepository.objects.prefetch_related(
+    repos_by_date = GithubRepository.objects.order_by("-pushed_at").prefetch_related(
         Prefetch(
             "commits",
             queryset=GithubCommit.objects.order_by("-date")

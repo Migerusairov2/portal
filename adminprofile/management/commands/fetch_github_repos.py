@@ -15,6 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         repositories = fetch_personal_repositories()
+        print("---",repositories)
 
         for repo in repositories:
 
@@ -26,6 +27,7 @@ class Command(BaseCommand):
                     "stars": repo["stargazers_count"],
                     "language": repo["language"] or "",
                     "description": repo["description"] or "",
+                    "pushed_at" : repo["pushed_at"],
                 }
             )
 
