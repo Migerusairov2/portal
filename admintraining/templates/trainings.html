@@ -1,1 +1,79 @@
-<span>test</span>
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_Miguel.Dev</title>
+    <link rel="stylesheet" href="{% static 'admintraining/src/css/admintraining.css' %}">
+</head>
+
+<body>
+
+    <!-- Animated Background -->
+    <div class="animated-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    {% include 'header/header.html' %}
+
+    <div class="container">
+        <aside class="sidebar">
+            <div class="tabs">
+                <div class="tab active" data-tab="trainings">Trainings</div>
+                <div class="tab" data-tab="certifications">Certifications</div>
+            </div>
+            <div class="sidebar-section">
+                <h3 style="font-weight: 500; font-size: smaller;">Partners</h3>
+                <h4>Partners here</h4>
+            </div>
+        </aside>
+
+        <main>
+
+            <div class="tab-content active" id="trainings">
+                <h2>Trainings</h2>
+                <div class="repo-grid">
+
+
+                    <div class="card">
+                        <a href="#" target="_blank" rel="noopener noreferrer" class="card-link">image</a>
+                        <p class="card-desc">
+                            description here!
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="tab-content" id="certifications">
+                <h2>Certifications</h2>
+                <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                text-align:center;
+                background:var(--bg-header);
+                backdrop-filter: blur(10px);
+                ">
+                    Certificate image here.
+                </div>
+
+            </div>
+
+
+
+        </main>
+    </div>
+
+    <script src="{% static 'admintraining\src\js\admintraining.js' %}"></script>
+
+</body>
+
+</html>

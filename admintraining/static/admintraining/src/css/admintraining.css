@@ -236,23 +236,30 @@ body:not([data-theme="light"]) .moon-icon {
 /* --- MAIN CONTENT --- */
 .tabs {
     display: flex;
-    gap: 20px;
-    border-bottom: 1px solid var(--border);
+    gap: 3px;
+    /* border-bottom: 1px solid var(--border); */
     margin-bottom: 24px;
-    
+    flex-direction: column;
+
 }
 
 .tab {
     padding: 8px 4px;
     font-size: 14px;
     cursor: pointer;
-    border-bottom: 2px solid transparent;
+    border-left: 2px solid transparent;
+}
+
+.tab:hover {
+    background-color: var(--bg-header);
+    border-left: 4px solid #888;   
 }
 
 .tab.active {
     border-bottom-color: var(--accent-orange);
     font-weight: 600;
 }
+
 
 .repo-grid {
     display: grid;
@@ -482,14 +489,15 @@ body:not([data-theme="light"]) .moon-icon {
 
 .tab {
     cursor: pointer;
+    padding-left:20px ;
 }
 
 .tab.active {
-    border-bottom: 2px solid white;
+    border-left: 4px solid white;
 }
 
 [data-theme="light"] .tab.active {
-    border-bottom: 2px solid #000000;
+    border-left: 4px solid #000000;
 }
 
 .logo {
