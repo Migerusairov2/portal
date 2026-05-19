@@ -233,8 +233,38 @@ a {
     }
 
     .floating-card {
-        width: 200px;
+        width: 150px;
         height: 200px;
+        padding: 15px;
+        margin: 15px;
+    }
 
+    .card-dot {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        /* background: linear-gradient(135deg, #6366f1, #3b82f6); */
+        background: rgba(255, 255, 255, 0.1);
+
+        margin-bottom: 1rem;
+    }
+
+    .card-line {
+        height: 5px;
+        background: rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        margin: 10px 0;
+    }
+
+    .card-line.short {
+        width: 40%;
+    }
+
+    .card-line.long {
+        width: 100%;
+    }
+
+    br {
+        display: none;
     }
 }
