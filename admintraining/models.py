@@ -32,7 +32,7 @@ class Certificate(models.Model):
     training = models.ForeignKey(
         Training,
         on_delete=models.CASCADE,
-        related_name='certificates'
+        related_name='training'
     )
 
     caption = models.CharField(max_length=100)

@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django import forms
 from .models import Training, Certificate, Source
 
 
@@ -18,4 +19,4 @@ class TrainingAdmin(admin.ModelAdmin):
 class CertificateAdmin(admin.ModelAdmin):
     list_display = ('user', 'training', 'caption', 'issued_at')
     list_filter = ('training', 'user')
-    search_fields = ('user__username', 'training__title', 'caption')
+    search_fields = ('user_username', 'training_title', 'caption')

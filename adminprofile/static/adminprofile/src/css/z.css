@@ -135,11 +135,22 @@ body:not([data-theme="light"]) .moon-icon {
     background-color: var(--btn-primary-hover);
 }
 
+.btn-update::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background: #10b981; /* Success Green */
+    border-radius: 50%;
+    margin-right: 3px;
+    vertical-align: middle;
+}
+
 .btn-update {
     color: white;
     background: var(--bg-header);
     font-size: 12px;
-    font-weight: 300;
+    font-weight: 500;
     padding: 5px 12px;
     border: 1px solid var(--border);
     border-radius: 6px;
@@ -152,6 +163,26 @@ body:not([data-theme="light"]) .moon-icon {
     cursor: pointer;
 
 }
+
+[data-theme="light"] .btn-update {
+    color: #000;
+    background: var(--bg-header);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    backdrop-filter: blur(20px);
+}
+
+[data-theme="light"] .btn-update:hover {
+    background: #ffffff;
+    cursor: pointer;
+
+}
+
+
 
 /* --- LAYOUT --- */
 .container {

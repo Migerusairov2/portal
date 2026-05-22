@@ -15,7 +15,7 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
 
         repositories = fetch_personal_repositories()
-        print("---",repositories)
+        # print("---",repositories)
 
         for repo in repositories:
 

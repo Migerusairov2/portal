@@ -39,17 +39,39 @@
 
             <div class="tab-content active" id="trainings">
                 <h2>Trainings</h2>
+
+                {% for source, trainings in grouped_trainings.items %}
+                <h3>{{ source }}</h3>
+
                 <div class="repo-grid">
 
-
+                    {% for cert in trainings %}
                     <div class="card">
-                        <a href="#" target="_blank" rel="noopener noreferrer" class="card-link">image</a>
+
+                        {% if cert.certificate_file %}
+                        <a href="{{ cert.certificate_file.url }}" target="_blank" rel="noopener noreferrer"
+                            class="card-link">
+                            View Certificate
+                        </a>
+                        {% else %}
+                        <a href="#" class="card-link">
+                            No Certificate
+                        </a>
+                        {% endif %}
+
                         <p class="card-desc">
-                            description here!
+                            <strong>{{ cert.training_name }}</strong><br>
+                            Date: {{ cert.training_date }}<br>
+                            Certificate No: {{ cert.certificate_no }}
                         </p>
+
                     </div>
+                    {% empty %}
+                    <p>No trainings found under {{ source }}.</p>
+                    {% endfor %}
 
                 </div>
+                {% endfor %}
             </div>
 
             <div class="tab-content" id="certifications">
