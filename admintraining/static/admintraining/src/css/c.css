@@ -273,6 +273,7 @@ body:not([data-theme="light"]) .moon-icon {
     background: rgba(22, 27, 34, 0.6);
     backdrop-filter: blur(12px);
     transition: border-color 0.2s;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.10);
 }
 
 .card-link {
@@ -796,9 +797,6 @@ nav .connect {
     display: block;
     overflow: hidden;
     height: 220px;
-    background: #0d1117;
-    border: 1px solid #30363d;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
     filter: grayscale(30%);
 
     transition:
@@ -809,8 +807,6 @@ nav .connect {
 
 .card .card-img:hover {
     transform: translateY(-3px);
-    border-color: var(--border);
-    box-shadow: 0 8px 24px rgba(1, 4, 9, 0.45);3
     filter: grayscale(0%);
 
 }
@@ -862,4 +858,19 @@ nav .connect {
     .dropdown .divider {
         display: block;
     }
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+th, td {
+  text-align: left;
+  padding: 8px;
+}
+
+tr:nth-child(even) {
+background-color: var(--border);
+
 }

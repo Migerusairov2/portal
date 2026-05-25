@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
-    <link rel="stylesheet" href="{% static 'admintraining/src/css/training.css' %}">
+    <link rel="stylesheet" href="{% static 'admintraining/src/css/c.css' %}">
 </head>
 
 <body>
@@ -27,7 +27,7 @@
         <aside class="sidebar">
             <div class="tabs">
                 <div class="tab active" data-tab="trainings&certifications">Trainings & Certifications</div>
-                <div class="tab" data-tab="learnings">Learnings</div>
+                <div class="tab" data-tab="developers-guide">Developers Guide</div>
             </div>
             <div class="sidebar-section">
                 <h3 style="font-weight: 500; font-size: smaller;">Partners</h3>
@@ -50,7 +50,7 @@
 
                     <div class="card">
                         <a href="{{ cert.certificate_file.url }}" target="_blank" rel="noopener noreferrer"
-                            class="card-img">
+                            class="card-img ">
                             <img src="{{ cert.certificate_file.url }}" alt="certificate">
                         </a>
                         <br>
@@ -68,7 +68,7 @@
                     </div>
                     {% else %}
                     <div class="card">
-                        <div style="display: block; overflow: hidden; height: 220px; background: #0d1117; font-size: 10px; margin-bottom: 10px;">
+                        <div style="font-size: 10px; margin-bottom: 10px; text-align: end;">
                             No Image found
                         </div>
                         {{ cert.title }}
@@ -89,18 +89,37 @@
                 {% endfor %}
             </div>
 
-            <div class="tab-content" id="learnings">
-                <h2>Learnings</h2>
-                <div style="
-                border:1px solid var(--border);
-                border-radius:6px;
-                padding:16px;
-                text-align:center;
-                background:var(--bg-header);
-                backdrop-filter: blur(10px);
-                ">
-                    Certificate image here.
-                </div>
+            <div class="tab-content" id="developers-guide">
+                <h2>Developers Guide</h2>
+                <p>
+                    Continuous learning is part of development. Below are the technical guides and documentation
+                    resources I’ve reviewed and studied.
+                </p>
+                <i>
+                    <p style="color:#888; font-size: 12px;">
+                        includes: programming concepts, frameworks, APIs, and real-world development workflows.
+                    </p>
+                </i>
+                <table>
+                    <tr>
+                        <th><i>SITES</i></th>
+                        <th><i>URL</i></th>
+                    </tr>
+                    {% for guide in guides %}
+                    <tr>
+                        <td style="width: 40%;">{{ guide.name }}</td>
+                        <td><a href="{{ guide.url }}" class="card-link ">{{ guide.url }}</a></td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td style="width: 30%;">
+                           <i>no url found.</i>
+                        </td>
+                        <td></td>
+                    </tr>
+                    {% endfor %}
+                    
+                </table>
 
             </div>
 
