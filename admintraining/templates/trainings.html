@@ -7,7 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
-    <link rel="stylesheet" href="{% static 'admintraining/src/css/admintraining.css' %}">
+    <link rel="stylesheet" href="{% static 'admintraining/src/css/training.css' %}">
 </head>
 
 <body>
@@ -26,8 +26,8 @@
     <div class="container">
         <aside class="sidebar">
             <div class="tabs">
-                <div class="tab active" data-tab="trainings">Trainings</div>
-                <div class="tab" data-tab="certifications">Certifications</div>
+                <div class="tab active" data-tab="trainings&certifications">Trainings & Certifications</div>
+                <div class="tab" data-tab="learnings">Learnings</div>
             </div>
             <div class="sidebar-section">
                 <h3 style="font-weight: 500; font-size: smaller;">Partners</h3>
@@ -37,7 +37,7 @@
 
         <main>
 
-            <div class="tab-content active" id="trainings">
+            <div class="tab-content active" id="trainings&certifications">
                 <h2>Trainings</h2>
 
                 {% for source, trainings in grouped_trainings.items %}
@@ -46,26 +46,41 @@
                 <div class="repo-grid">
 
                     {% for cert in trainings %}
-                    <div class="card">
+                    {% if cert.certificate_file %}
 
-                        {% if cert.certificate_file %}
+                    <div class="card">
+                        <a href="{{ cert.certificate_file.url }}" target="_blank" rel="noopener noreferrer"
+                            class="card-img">
+                            <img src="{{ cert.certificate_file.url }}" alt="certificate">
+                        </a>
+                        <br>
                         <a href="{{ cert.certificate_file.url }}" target="_blank" rel="noopener noreferrer"
                             class="card-link">
-                            View Certificate
+                            {{ cert.title }}
                         </a>
-                        {% else %}
-                        <a href="#" class="card-link">
-                            No Certificate
-                        </a>
-                        {% endif %}
 
                         <p class="card-desc">
-                            <strong>{{ cert.training_name }}</strong><br>
-                            Date: {{ cert.training_date }}<br>
-                            Certificate No: {{ cert.certificate_no }}
+                            Description: {{ cert.description }}
+                            <br>
+                            Issued on : {{ cert.issued_at|date:"M j, Y" }}<br>
                         </p>
 
                     </div>
+                    {% else %}
+                    <div class="card">
+                        <div style="display: block; overflow: hidden; height: 220px; background: #0d1117; font-size: 10px; margin-bottom: 10px;">
+                            No Image found
+                        </div>
+                        {{ cert.title }}
+                        <p class="card-desc">
+                            Description: {{ cert.description }}
+                            <br>
+                            Issued on : {{ cert.issued_at|date:"M j, Y" }}<br>
+                        </p>
+
+                    </div>
+                    {% endif %}
+
                     {% empty %}
                     <p>No trainings found under {{ source }}.</p>
                     {% endfor %}
@@ -74,8 +89,8 @@
                 {% endfor %}
             </div>
 
-            <div class="tab-content" id="certifications">
-                <h2>Certifications</h2>
+            <div class="tab-content" id="learnings">
+                <h2>Learnings</h2>
                 <div style="
                 border:1px solid var(--border);
                 border-radius:6px;
