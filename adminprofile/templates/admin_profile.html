@@ -7,7 +7,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
-    <link rel="stylesheet" href="{% static 'adminprofile/src/css/z.css' %}">
+    <link rel="stylesheet" href="{% static 'src/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'adminprofile/src/css/style.css' %}">
 </head>
 
 <body>
@@ -31,12 +32,12 @@
             <img src="{{ avatar }}" alt="Profile Picture" class="sidebar-img" />
             {% endif %}
             {% if admin_profile %}
-            <div class="profile-names">
+            <div class="profile">
                 <h1>{{ admin_profile.username }}</h1>
                 <p>{{ admin_profile.email}}</p>
             </div>
             {% else %}
-            <div class="profile-names">
+            <div class="profile">
                 <h1>No Superuser</h1>
                 <p>Please create one using: python manage.py createsuperuser</p>
             </div>
@@ -102,7 +103,6 @@
         </aside>
 
         <main>
-
             <div class="tabs">
                 <div class="tab active" data-tab="overview">Overview</div>
                 <div class="tab" data-tab="projects">Projects</div>
@@ -153,7 +153,6 @@
                 padding:16px;
                 text-align:center;
                 background:var(--bg-header);
-                backdrop-filter: blur(10px);
                 ">
                     {% for project in projects %}
                     {% if project.pinned %}
@@ -353,7 +352,9 @@
         <p>Footer here</p>
     </footer> -->
 
+    <script src="{% static 'src/js/base.js' %}"></script>
     <script src="{% static 'adminprofile/src/js/script.js' %}"></script>
+
 
 </body>
 

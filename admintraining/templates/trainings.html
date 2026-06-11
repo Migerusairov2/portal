@@ -7,12 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
-    <link rel="stylesheet" href="{% static 'admintraining/src/css/c.css' %}">
+    <link rel="stylesheet" href="{% static 'src/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'admintraining/src/css/style.css' %}">
+
 </head>
 
 <body>
-
-    <!-- Animated Background -->
     <div class="animated-bg">
         <span></span>
         <span></span>
@@ -108,7 +108,7 @@
                     {% for guide in guides %}
                     <tr>
                         <td style="width: 40%;">{{ guide.name }}</td>
-                        <td><a href="{{ guide.url }}" class="card-link ">{{ guide.url }}</a></td>
+                        <td><a href="{{ guide.url }}" class="card-link " target="_blank">{{ guide.url }}</a></td>
                     </tr>
                     {% empty %}
                     <tr>
@@ -127,9 +127,8 @@
 
         </main>
     </div>
-
-    <script src="{% static 'admintraining\src\js\admintraining.js' %}"></script>
-
+    <script src="{% static 'src\js\base.js' %}"></script>
+    <script src="{% static 'admintraining\src\js\script.js' %}"></script>
 </body>
 
 </html>
