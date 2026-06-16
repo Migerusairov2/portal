@@ -25,7 +25,7 @@
     --btn-primary: #1f883d;
     --btn-primary-hover: #1a7f37;
     --icon-fill: #57606a;
-    --notif-dot: #0969da;
+    --notif-dot: #0969da;       
 }
 
 * {
@@ -75,8 +75,27 @@ header {
 }
 
 .logo {
+    font-family: Consolas, Monaco, monospace;
     font-weight: 600;
     font-size: 14px;
+}
+
+.prompt {
+    font-family: Consolas, Monaco, monospace;
+    font-size: 14px;
+    
+}
+
+.cursor {
+    font-size: 14px;
+    font-family: Consolas, Monaco, monospace;
+    animation: blink 1s step-end infinite;
+}
+
+@keyframes blink {
+    50% {
+        opacity: 0;
+    }
 }
 
 .modern-nav {
@@ -154,9 +173,7 @@ header {
 }
 
 .dropdown-menu li {
-    padding-left: 10px;
     border-radius: 3px;
-    /* background-color: var(--bg-header); */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -170,6 +187,7 @@ header {
 .dropdown-menu a {
     text-decoration: none;
     display: block;
+    
 }
 
 .dropdown-menu {
@@ -184,8 +202,6 @@ header {
 .dropdown-menu a li .icon-btn {
     border: none;
 }
-
-
 
 .icon-btn {
     background: transparent;
