@@ -251,5 +251,9 @@ tr:hover {
         text-align: center;
     }
 
+    main .tab-content{
+        padding: 30px;
+    }
+
 }
 

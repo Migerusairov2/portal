@@ -45,7 +45,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'hero',
     'adminprofile',
-    'admintraining'
+    'admintraining',
+    'pdf_reports'
 ]
 
 MIDDLEWARE = [

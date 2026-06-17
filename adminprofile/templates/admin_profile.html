@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
     <link rel="stylesheet" href="{% static 'src/css/baseeee.css' %}">
-    <link rel="stylesheet" href="{% static 'adminprofile/src/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'adminprofile/src/css/a.css' %}">
 </head>
 
 <body>
@@ -230,7 +230,7 @@
                     </div>
 
                     {% empty %}
-                    <p>doesn't have any projects uploaded yet.</p>
+                    <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.</p>
                     {% endfor %}
 
                 </div>
@@ -347,9 +347,8 @@
         </main>
     </div>
 
-    <!-- <footer>
-        <p>Footer here</p>
-    </footer> -->
+    <!-- {% include 'footer/footer.html' %} -->
+
 
     <script src="{% static 'src/js/base.js' %}"></script>
     <script src="{% static 'adminprofile/src/js/script.js' %}"></script>
