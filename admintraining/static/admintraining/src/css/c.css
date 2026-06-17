@@ -229,6 +229,11 @@ tr:hover {
     display: block;
     }
 
+    .tab-content h2{
+        text-align: center;
+
+    }
+
     .sidebar {
         width: 100%;
         height: auto;
@@ -240,6 +245,10 @@ tr:hover {
 
     h2{
         margin: 0px;
+    }
+
+    .tab-content p{
+        text-align: center;
     }
 
 }

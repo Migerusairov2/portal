@@ -1,18 +1,21 @@
 <header class="main-header">
     <div class="logo">
-        <span>Miguel</span><span style="color: var(--btn-primary);" class="prompt">.Dev&gt;</span><span class="cursor">_</span>
+        <span>Miguel</span><span style="color: var(--btn-primary);" class="prompt">.Dev&gt;</span><span
+            class="cursor">_</span>
     </div>
 
     <nav class="modern-nav">
         <ul>
             <li><a href="{% url 'overview' %}">Overview</a></li>
             <li><a href="{% url 'trainings' %}">Trainings & Certifications</a></li>
-            <li class="dropdown">
+            <li>
                 <div class="divider"></div>
+            </li>
+            <li class="dropdown">
                 <a>Reports</a>
                 <ul class="dropdown-menu">
                     <span>Reports</span>
-                    <a href="#">
+                    <a href="#" class="cv">
                         <li>
                             Curriculum Vitae (CV - PDF)
                             <div class="icon-btn">
@@ -23,12 +26,15 @@
                             </div>
                         </li>
                     </a>
-                    <li><a href="#" class="connect">
+                    <a href="#" class="connect">
+                        <li>
                             Connect with me
-                        </a>
-                    </li>
+                        </li>
+                    </a>
                 </ul>
             </li>
+        </ul>
+        </li>
 
         </ul>
 

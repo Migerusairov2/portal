@@ -179,7 +179,7 @@ header {
 }
 
 
-.dropdown-menu a:hover {
+.dropdown-menu .cv:hover {
     background-color: var(--border);
 }
 
@@ -334,7 +334,7 @@ nav .connect {
     display: block;
     border-radius: 50%;
     filter: blur(80px);
-    opacity: 0.18;
+    opacity: 0.38;
     animation: floatAnimation 18s infinite ease-in-out alternate;
 }
 
@@ -498,7 +498,7 @@ nav .connect {
 
     .dropdown {
         display: block;
-        width: 100%;
+        width: 90%;
     }
 
     .dropdown-menu {
@@ -517,10 +517,13 @@ nav .connect {
         font-weight: 700;
         /* margin: 15px; */
         display: none;
+
     }
 
-    .dropdown .divider {
+    .divider {
         display: block;
+        border-bottom: 1px solid gray;
+        width: 90%;
     }
 
     .sidebar {
@@ -531,5 +534,10 @@ nav .connect {
     .sidebar-section {
         display: none;
     }
+
+    .dropdown-menu a{
+        margin-top:5px;
+    }
+
 
 }
