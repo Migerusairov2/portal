@@ -1,7 +1,7 @@
+// Toggle Theme
+
 const themeBtn = document.getElementById('themeBtn');
 const body = document.body;
-
-// Toggle Theme
 themeBtn.addEventListener('click', () => {
     const currentTheme = body.getAttribute('data-theme');
 
@@ -12,11 +12,24 @@ themeBtn.addEventListener('click', () => {
         body.setAttribute('data-theme', 'light');
         localStorage.setItem('portfolio-theme', 'light');
     }
+    console.log('test')
 });
 
 if (localStorage.getItem('portfolio-theme') === 'light') {
     body.setAttribute('data-theme', 'light');
 }
+
+// Burger Navigation menu
+
+const burgerBtn = document.getElementById("burgerBtn");
+const mobileNav = document.querySelector(".modern-nav");
+
+burgerBtn.addEventListener("click", () => {
+    mobileNav.classList.toggle("active");
+
+});
+
+// tab actions
 
 const tabs = document.querySelectorAll(".tab");
 const contents = document.querySelectorAll(".tab-content");
@@ -37,26 +50,4 @@ tabs.forEach(tab => {
         const target = tab.dataset.tab;
         document.getElementById(target).classList.add("active");
     });
-});
-
-const burgerBtn = document.getElementById("burgerBtn");
-const mobileNav = document.querySelector(".modern-nav");
-
-burgerBtn.addEventListener("click", () => {
-    mobileNav.classList.toggle("active");
-
-});
-
-document.addEventListener("DOMContentLoaded", function () {
-
-    const urlParams = new URLSearchParams(window.location.search);
-    const tab = urlParams.get("tab");
-
-    if (tab) {
-        const target = document.querySelector(`[data-tab="${tab}"]`);
-        if (target) {
-            target.click();
-        }
-    }
-
 });

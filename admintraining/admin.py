@@ -1,6 +1,10 @@
 from django.contrib import admin
 from django import forms
-from .models import Training, Certificate, Source
+from .models import Training, Certificate, Source, Guide
+
+@admin.register(Guide)
+class GuideAdmin(admin.ModelAdmin):
+    list_display = ('name', 'url',)
 
 
 @admin.register(Source)

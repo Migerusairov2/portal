@@ -24,6 +24,7 @@ urlpatterns = [
     path('', include('hero.urls')),
     path('', include('adminprofile.urls')),
     path('', include('admintraining.urls')),
+    path('', include('pdf_reports.urls')),
 ]
 
 if settings.DEBUG:
