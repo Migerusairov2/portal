@@ -1,3 +1,4 @@
+{% load socialaccount %}
 <header class="main-header">
     <div class="logo">
         <span>Miguel</span><span style="color: var(--btn-primary);" class="prompt">.Dev&gt;</span><span
@@ -26,7 +27,7 @@
                             </div>
                         </li>
                     </a>
-                    <a href="#" class="connect">
+                    <a href="{% provider_login_url 'google' %}" class="connect">
                         <li>
                             Connect with me
                         </li>
@@ -64,7 +65,7 @@
             </svg>
         </button>
 
-        <a href="/profile" class="btn-connect">
+        <a href="{% provider_login_url 'google' %}" class="btn-connect">
             Connect with me
         </a>
         <button class="burger" id="burgerBtn">
