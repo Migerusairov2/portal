@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.http import HttpResponse
 from django.contrib.auth.models import User 
-from adminprofile.models import Profile, SocialMedia
+from profile.models import Profile, SocialMedia
 
 def hero(request):
 
