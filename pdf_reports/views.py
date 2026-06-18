@@ -2,9 +2,10 @@ from django.http import HttpResponse
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import letter
 from django.contrib.auth.models import User
-from adminprofile.models import Profile, Project, Trajectory
+from profile.models import Profile, Project, Trajectory
 from collections import defaultdict
 from textwrap import wrap
+
 
 
 def pdf_report(request):
@@ -84,6 +85,12 @@ def pdf_report(request):
         f"{superuser.last_name or ''}"
     ).strip()
 
+    full_name = (
+        f"{profile.first_name or ''} "
+        f"{profile.middle_name[:1] or ''} {'.' if profile.middle_name else ''}"
+        f"{profile.last_name or ''}"
+    ).strip()
+
     p.setFont("Helvetica-Bold", 20)
     p.drawCentredString(width / 2, y, full_name)
 
@@ -91,7 +98,8 @@ def pdf_report(request):
 
     contact_info = (
         f"{superuser.email or ''}"
-        f" | {profile.phone if profile else ''}"
+        f"{' | ' if profile.phone else ''}"
+        f"{profile.phone if profile else ''}"
     )
 
     p.setFont("Helvetica", font_size)
@@ -129,7 +137,7 @@ def pdf_report(request):
         else ""
     )
 
-    for line in wrap(description, width=85):
+    for line in wrap(description, width=130):
         y = new_page_if_needed(y)
 
         p.drawString(
@@ -152,7 +160,7 @@ def pdf_report(request):
     p.drawString(
         LEFT_MARGIN,
         y,
-        "EXPERIENCE"
+        "EXPERIENCES"
     )
 
     y -= 20
@@ -193,7 +201,7 @@ def pdf_report(request):
 
         for line in wrap(
             trajectory.description or "",
-            width=80
+            width=130
         ):
             y = new_page_if_needed(y)
 
@@ -242,7 +250,7 @@ def pdf_report(request):
 
             for line in wrap(
                 project.description or "",
-                width=80
+                width=130
             ):
                 y = new_page_if_needed(y)
 
@@ -320,7 +328,7 @@ def pdf_report(request):
 
             description = cert["description"] or ""
 
-            for line in wrap(description, width=80):
+            for line in wrap(description, width=130):
                 y = new_page_if_needed(y)
 
                 p.drawString(

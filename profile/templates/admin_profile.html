@@ -1,0 +1,359 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_Miguel.Dev</title>
+    <link rel="stylesheet" href="{% static 'src/css/baseeee.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/src/css/a.css' %}">
+</head>
+
+<body>
+
+    <div class="animated-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+
+    {% include 'header/header.html' %}
+
+    <div class="container">
+
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            {% if avatar %}
+            <img src="{{ avatar }}" alt="Profile Picture" class="sidebar-img" />
+            {% endif %}
+            {% if admin_profile %}
+            <div class="profile">
+                <h1>{{ admin_profile.username }}</h1>
+                <p>{{ admin_profile.email}}</p>
+            </div>
+            {% else %}
+            <div class="profile">
+                <h1>No Superuser</h1>
+                <p>Please create one using: python manage.py createsuperuser</p>
+            </div>
+            {% endif %}
+            {% if description %}
+            <p class="bio">
+                {{ description }}
+            <div class="user-bio">
+            </div>
+            </p>
+            {% else %}
+            <p class="bio" style="font-size: 12px; color: var(--text-muted);"   >
+                No description provided.
+            <div class="user-bio">
+            </div>
+            </p>
+            {% endif %}
+
+
+            <div class="sidebar-section">
+                <h3 style="font-weight: 500; font-size: smaller;">Social Media</h3>
+                <h4>Accounts</h4>
+                {% for media in social_medias %}
+                <div class="lang-item">
+                    {% if media.logo %}
+                    <span class="dot">
+                        <img src="{{ media.logo.url }}" alt="framework" style="width: 100%; height: 100%; object-fit: cover; margin-bottom: 10px ; border-radius: 30px;"/>
+                    </span>
+                    {% endif %}
+
+                    <a href="{{ media.url }}" style="text-decoration: none; font-size: 12px; font-weight: 600; color: var(--text-muted)">{{ media.name }}</a>
+                </div>
+                {% empty %}
+                <p>No selected accounts.</p>
+                {% endfor %}
+                
+                <h3 style="font-weight: 500; font-size: smaller;">Experience with</h3>
+                <h4>Frameworks</h4>
+                {% for lang in frameworks.all %}
+                <div class="lang-item">
+                    {% if lang.logo %}
+                    <span class="dot">
+                        <img src="{{ lang.logo.url }}" alt="framework" style="width: 100%; height: 100%; object-fit: cover; margin-bottom: 10px ; border-radius: 30px;"/>
+                    </span>
+                    {% endif %}
+
+                    {{ lang.name }}
+                </div>
+                {% empty %}
+                <p>No Frameworks selected.</p>
+                {% endfor %}
+                
+                <h4>Languages</h4>
+                {% for lang in languages.all %}
+                <div class="lang-item">
+                    <span class="dot" style="background: {{ lang.color_code }};"></span>
+                    {{ lang.name }}
+                </div>
+                {% empty %}
+                <p>No languages selected.</p>
+                {% endfor %}
+            </div>
+        </aside>
+
+        <main>
+            <div class="tabs">
+                <div class="tab active" data-tab="overview">Overview</div>
+                <div class="tab" data-tab="projects">Projects</div>
+                <div class="tab" data-tab="repositories">Repositories</div>
+                <div class="tab" data-tab="updates">Updates</div>
+            </div>
+
+            <div class="tab-content active" id="overview">
+                <h2 style="font-size:16px;font-weight:400;margin-bottom:16px;">
+                    Pinned
+                </h2>
+                <div class="repo-grid">
+
+                    {% for project in projects %}
+                    {% if project.pinned %}
+                    <div class="card">
+                        <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{ project.name }}</a>
+                        <p class="card-desc">
+                            {{ project.description|default:"No description provided." }}
+                        </p>
+                        <div class="card-meta">
+                            {% for lang in project.languages_used.all %}
+                            <span>
+                                <span class="dot"
+                                    style="background:{{ lang.color_code }}; display:inline-block; vertical-align:middle; margin-right:4px;">
+                                </span>
+                                {{ lang.name }}
+                            </span>
+                            {% endfor %}
+                            <!-- <span>⭐ 248</span> -->
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    {% empty %}
+                    <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.</p>
+                    {% endfor %}
+
+                </div>
+
+                <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
+                    Previews
+                </h2>
+
+                <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                text-align:center;
+                background:var(--bg-header);
+                ">
+                    {% for project in projects %}
+                    {% if project.pinned %}
+
+                    <h4 style="text-align: left; margin-top: -5px; font-size: 14px; font-weight: 600;">{{ project.name }}</h4>
+
+                    <div class="repo-grid">
+                        {% for preview in project.images.all %}
+                        <div class="preview-card">
+                            <img src="{{ preview.image.url }}" alt="null">
+                        </div>     
+                        {% empty %}
+                        {% endfor %}               
+                    </div>
+                    <div class="divider"></div>
+                    {% endif %}
+
+                    {% empty %}
+                    <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.</p>
+                    {% endfor %}
+                </div>
+
+                <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
+                        Trajectories    
+                </h2>
+
+                <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                background:var(--bg-header);
+                backdrop-filter: blur(10px);
+                ">
+                    {% for trajectory in trajectories %}
+
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <i><p style="font-size: 14px; font-weight: 500;">{{ trajectory.job_position }}</p></i>
+                            </div>
+                            <div >
+                                <i><p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">{{ trajectory.date_start }} - {{ trajectory.date_end }}</p></i>
+                            </div>
+                        </div>
+                        <p style="color:var(--text-muted);font-size:14px;margin:0;">
+                            {{ trajectory.description }}
+                        </p>
+                        <div class="divider"></div>
+                    {% empty %}
+                    <p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
+                    {% endfor %}
+                </div>
+
+            </div>
+
+            <div class="tab-content" id="projects">
+                <h2>Projects</h2>
+                <div class="repo-grid">
+
+                    {% for project in projects %}
+                    <div class="card">
+                        <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{ project.name }}</a>
+                        <p class="card-desc"> 
+                            {{ project.description|default:"No description provided." }}
+                        </p>
+                        <div class="card-meta">
+                            {% for lang in project.languages_used.all %}
+                            <span>
+                                <span class="dot" style="background:{{ lang.color_code }}; display:inline-block; vertical-align:middle; margin-right: 4px;">
+                                </span>
+                                {{ lang.name }}
+                            </span>
+                            {% endfor %}
+                            
+                            <!-- <span>⭐ 248</span> -->
+                        </div>
+                    </div>
+
+                    {% empty %}
+                    <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.</p>
+                    {% endfor %}
+
+                </div>
+
+            </div>
+            
+            <div class="tab-content" id="repositories">
+                <div style="display: flex; justify-content: space-between; align-items: center;">
+                    <h2>Github Repositories</h2>
+
+                    <button  href="#" class="btn-update" id="repo-btn" title="Update">
+                         update
+                    </button >
+
+                </div>
+                <p>All public repositories link from github.</p>
+                {% for repo in repos %}
+                <div class="list-repos">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: -20px;">
+                        <h4>
+                            {{ repo.name }}
+                        </h4>
+                        <div style="vertical-align: middle;">
+                            <span style="font-size: 12px; color: var(--text-muted); vertical-align: middle;">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/>
+                                </svg>
+                            </span>
+                            <span style="font-size: 12px; color: var(--text-muted);">{{ repo.stars }}</span>
+
+                        </div>
+                        
+                    
+                    </div>
+                    <div class="repos-description">
+                        <p>{{ repo.description }}</p>
+                    </div>
+                    <div class="repos-url">
+                        <span>URL :</span>
+                        <a href="{{ repo.repo_url}}">{{ repo.repo_url}}</a>
+                    </div>
+                    
+                </div>
+                {% empty %}
+                    <div class="no-commits">No repositories found.</div>
+                {% endfor %}
+                <!-- <div>
+                    <form method="GET">
+                        <input type="text" name="q" placeholder="Search repo...">
+                        <button type="submit">Search</button>
+                    </form>
+                </div> -->
+                                
+
+
+            </div>
+            
+
+            <div class="tab-content" id="updates">
+                <h2>Recent Updates</h2>
+                <p>Latest commits and activity here.</p>
+                {% for repo in repos_by_date %}
+                <div class="repo-card">
+
+                    <!-- Repo Header -->
+                    <div class="repo-header">
+                    <h2 class="repo-name">{{ repo.name }}</h2>
+                    <p class="repo-desc">{{ repo.description }}</p>
+                    </div>
+
+                    <!-- Commits Section -->
+                    <div class="commits-section">
+                    <h3>Latest commits</h3>
+
+                    <div class="commit-list">
+                        {% for commit in repo.commits.all %}
+                        <div class="commit-item">
+
+                            <div class="commit-top">
+                            <span class="commit-sha">
+                                {{ commit.sha|slice:":7" }}
+                            </span>
+
+                            <span class="commit-date">
+                                {{ commit.date }}
+                            </span>
+                            </div>
+
+                            <div class="commit-message">
+                            {{ commit.message }}
+                            </div>
+
+                            {% if commit.author %}
+                            <div class="commit-author">
+                                {{ commit.author }}
+                            </div>
+                            {% endif %}
+
+                        </div>
+                        {% empty %}
+                        <div class="no-commits">No commits yet</div>
+                        {% endfor %}
+                    </div>
+
+                    </div>
+                </div>
+                {% empty %}
+                    <div class="no-commits">No commits yet</div>
+                {% endfor %}
+
+            </div>
+
+
+        </main>
+    </div>
+
+    <!-- {% include 'footer/footer.html' %} -->
+
+
+    <script src="{% static 'src/js/base.js' %}"></script>
+    <script src="{% static 'profile/src/js/script.js' %}"></script>
+
+
+</body>
+
+</html>

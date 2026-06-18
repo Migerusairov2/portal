@@ -44,8 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'hero',
-    'adminprofile',
-    'admintraining',
+    'profile',
+    'training',
     'pdf_reports'
 ]
 
