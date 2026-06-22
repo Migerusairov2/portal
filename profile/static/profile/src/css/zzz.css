@@ -317,3 +317,67 @@
         justify-content: center;
     }
 }
+
+.toast {
+    background: #10b981;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 3px;
+    display: none;
+    font-size: 14px;
+}
+
+.toast.error {
+    background: #ef4444;
+}
+
+.loader {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  display: inline-block;
+
+  border-top: 3px solid #10b981; /* green */
+  border-right: 3px solid transparent;
+
+  box-sizing: border-box;
+  animation: rotation 1s linear infinite;
+  vertical-align: middle;
+}
+
+[data-theme="light"] .loader {
+     color: #000;
+}
+
+
+
+@keyframes rotation {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} 
+
+.btn-editprofile {
+    color: white;
+    background: var(--bg-header);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+}
+
+.btn-editprofile:hover {
+    background: var(--border);
+    transition: 0.2s;
+
+}
+
+[data-theme="light"] .btn-editprofile {
+    color: #000;
+}

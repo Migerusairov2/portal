@@ -3,13 +3,22 @@ from django.contrib.auth.models import User
 from collections import defaultdict
 from pprint import pprint
 from .models import Guide
+from django.http import HttpResponse
+
 
 
 def trainings(request):
 
-    superuser = User.objects.filter(is_superuser=True).first()
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = User.objects.filter(is_superuser=True).first()
 
-    trainings = superuser.certificates.select_related('training').order_by('-issued_at')
+        if not user:
+            return HttpResponse("No superuser found.")
+
+
+    trainings = user.certificates.select_related('training').order_by('-issued_at')
 
     grouped_trainings = defaultdict(list)
     guides = Guide.objects.all()
@@ -25,7 +34,7 @@ def trainings(request):
     # pprint(grouped_trainings, sort_dicts=False)
 
     context = {
-        'user': superuser,
+        'user': user,
         'grouped_trainings': dict(grouped_trainings),
         'guides': guides
     }

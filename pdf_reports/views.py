@@ -10,18 +10,20 @@ from textwrap import wrap
 
 def pdf_report(request):
 
-    superuser = User.objects.filter(is_superuser=True).first()
+    if request.user.is_authenticated:
+        user = request.user
+    else:
+        user = User.objects.filter(is_superuser=True).first()
 
-    if not superuser:
-        return HttpResponse("No superuser found")
-    
+        if not user:
+            return HttpResponse("No superuser found.")
 
-    profile = Profile.objects.filter(user=superuser).first()
+    profile = Profile.objects.filter(user=user).first()
 
-    projects = Project.objects.filter(user=superuser)
-    trajectories = Trajectory.objects.filter(user=superuser)
+    projects = Project.objects.filter(user=user)
+    trajectories = Trajectory.objects.filter(user=user)
 
-    trainings = superuser.certificates.select_related('training').order_by('-issued_at')
+    trainings = user.certificates.select_related('training').order_by('-issued_at')
     grouped_trainings = defaultdict(list)
 
     for cert in trainings:
@@ -81,8 +83,8 @@ def pdf_report(request):
     # ==========================
 
     full_name = (
-        f"{superuser.first_name or ''} "
-        f"{superuser.last_name or ''}"
+        f"{user.first_name or ''} "
+        f"{user.last_name or ''}"
     ).strip()
 
     full_name = (
@@ -97,7 +99,7 @@ def pdf_report(request):
     y -= 25
 
     contact_info = (
-        f"{superuser.email or ''}"
+        f"{user.email or ''}"
         f"{' | ' if profile.phone else ''}"
         f"{profile.phone if profile else ''}"
     )
