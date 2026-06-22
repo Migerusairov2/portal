@@ -1,0 +1,100 @@
+{% load socialaccount %}
+<header class="main-header">
+    <div class="logo">
+        <span>Miguel</span><span style="color: var(--btn-primary);" class="prompt">.Dev&gt;</span><span
+            class="cursor">_</span>
+    </div>
+
+    <nav class="modern-nav" id="mainNav">
+        <ul>
+            <li><a href="{% url 'overview' %}">Overview</a></li>
+            <li><a href="{% url 'trainings' %}">Trainings & Certifications</a></li>
+            <li> <a href="{% url 'pdf_report' %}" class="cv" target="_blank">
+                    <span>CV</span>
+                    <div>
+                        <svg viewBox="0 0 16 16">
+                            <path
+                                d="M10 2.75a.75.75 0 01.75.75v7.69l2.22-2.22a.75.75 0 111.06 1.06l-3.5 3.5a.75.75 0 01-1.06 0l-3.5-3.5a.75.75 0 111.06-1.06l2.22 2.22V3.5A.75.75 0 0110 2.75zm-6 11.5a.75.75 0 000 1.5h12a.75.75 0 000-1.5H4z" />
+                        </svg>
+                    </div>
+                </a>
+            </li>
+        </ul>
+    </nav>
+
+    <div class="header-actions">
+        {% if user.is_authenticated %}
+
+        <div class="icon-btn" title="Updates available">
+        <svg viewBox="0 0 16 16" fill="currentColor">
+            <path d="M2 3.5A1.5 1.5 0 0 1 3.5 2h9A1.5 1.5 0 0 1 14 3.5v6A1.5 1.5 0 0 1 12.5 11H6.707l-2.853 2.854A.5.5 0 0 1 3 13.5V11H3.5A1.5 1.5 0 0 1 2 9.5v-6z"/>
+        </svg>
+            <div class="notif-dot"></div>
+        </div>
+        {% endif %}
+
+
+        <button class="icon-btn" id="themeBtn" title="Toggle Theme">
+            <svg class="moon-icon" viewBox="0 0 16 16">
+                <path
+                    d="M9.598 1.591a.75.75 0 01.785-.175 7 7 0 11-8.967 8.967.75.75 0 01.961-.96 5.5 5.5 0 007.046-7.046.75.75 0 01.175-.786z">
+                </path>
+            </svg>
+            <svg class="sun-icon" viewBox="0 0 16 16">
+                <path d="M8 12a4 4 0 110-8 4 4 0 010 8z"></path>
+            </svg>
+        </button>
+
+        {% if not user.is_authenticated %}
+        <a href="{% url 'account_login' %}" class="btn-connect">Connect with me</a>
+        {% endif %}
+
+        {% if user.is_authenticated %}
+        <div class="dropdown">
+            <button class="dropdown-toggle dropdown-trigger">
+                <span class="avatar">{{ user.username|first|upper }}</span>
+                {{ user.username }}
+                <svg width="10" height="10" viewBox="0 0 16 16" style="opacity:0.6;fill:currentColor;flex-shrink:0">
+                    <path
+                        d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z" />
+                </svg>
+            </button>
+            <div class="dropdown-menu user-dropdown">
+                <form method="post" action="{% url 'account_logout' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="dropdown-signout">
+                        Sign out
+                        <svg width="13" height="13" viewBox="0 0 16 16" style="fill:currentColor">
+                            <path
+                                d="M2 2.75C2 1.784 2.784 1 3.75 1h2.5a.75.75 0 010 1.5h-2.5a.25.25 0 00-.25.25v10.5c0 .138.112.25.25.25h2.5a.75.75 0 010 1.5h-2.5A1.75 1.75 0 012 13.25V2.75zm10.44 4.5H6.75a.75.75 0 000 1.5h5.69l-1.97 1.97a.75.75 0 101.06 1.06l3.25-3.25a.75.75 0 000-1.06L13.53 4.22a.75.75 0 10-1.06 1.06l1.97 1.97z" />
+                        </svg>
+                    </button>
+                </form>
+            </div>
+        </div>
+        {% endif %}
+
+        <button class="burger" id="burgerBtn">☰</button>
+    </div>
+</header>
+
+<script>
+    document.querySelectorAll('.dropdown-trigger').forEach(function (trigger) {
+        trigger.addEventListener('click', function (e) {
+            e.stopPropagation();
+            e.preventDefault();
+            const dropdown = trigger.closest('.dropdown');
+            const isOpen = dropdown.classList.contains('open');
+            document.querySelectorAll('.dropdown').forEach(function (d) {
+                d.classList.remove('open');
+            });
+            if (!isOpen) dropdown.classList.add('open');
+        });
+    });
+
+    document.addEventListener('click', function () {
+        document.querySelectorAll('.dropdown').forEach(function (d) {
+            d.classList.remove('open');
+        });
+    });
+</script>

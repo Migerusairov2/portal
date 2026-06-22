@@ -163,9 +163,9 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_REDIRECT_URL = 'overview' #redirection after login
-# LOGOUT_REDIRECT_URL = ''
+LOGOUT_REDIRECT_URL = 'overview'
 LOGIN_URL = 'login'
-
+SOCIALACCOUNT_LOGIN_ON_GET = True
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
