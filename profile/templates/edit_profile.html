@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
     <link rel="stylesheet" href="{% static 'src/css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/src/css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/src/css/stylee.css' %}">
     <style>
         .add-btn {
             color: white;
@@ -161,6 +161,11 @@
             /* Firefox scrollbar */
             scrollbar-width: thin;
             scrollbar-color: #888 transparent;
+            margin-top: 10px;
+        }
+
+        [data-theme="light"] .text-area {
+            color: #000;
         }
 
         .profile-input {
@@ -170,6 +175,10 @@
             border-radius: 6px;
             padding: 5px;
             width: 100%;
+        }
+
+        [data-theme="light"] .profile-input {
+            color: #000;
         }
 
         .profile-input::file-selector-button {
@@ -183,8 +192,16 @@
             font-weight: 500;
         }
 
+        [data-theme="light"] .profile-input::file-selector-button {
+            background: #555;
+        }
+
         .profile-input::file-selector-button:hover {
             background: #555;
+        }
+
+        [data-theme="light"] .profile-input::file-selector-button:hover {
+            background: #333;
         }
     </style>
 </head>
@@ -284,7 +301,8 @@
                     {% empty %}
                     <p>No languages selected.</p>
                     {% endfor %}
-                    <button type="button" onclick="document.getElementById('languageDialog').showModal()" class="add-btn">
+                    <button type="button" onclick="document.getElementById('languageDialog').showModal()"
+                        class="add-btn">
                         Add Language
                     </button>
                 </div>

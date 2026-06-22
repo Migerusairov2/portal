@@ -308,6 +308,29 @@
     color: var(--text-muted)
 }
 
+.btn-editprofile {
+    display: flex; 
+    color: white;
+    background: var(--bg-header);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+}
+
+.btn-editprofile:hover {
+    background: var(--border);
+    transition: 0.2s;
+
+}
+
+[data-theme="light"] .btn-editprofile {
+    color: #000;
+}
+
 @media (max-width: 768px) {
 
     .container {
@@ -333,6 +356,10 @@
         max-width: 100%;
         white-space: pre-line;
         overflow-wrap: anywhere;
+    }
+
+    .btn-editprofile {
+        display: none;
     }
 }
 
@@ -380,24 +407,3 @@
     }
 }
 
-.btn-editprofile {
-    color: white;
-    background: var(--bg-header);
-    font-size: 12px;
-    font-weight: 500;
-    padding: 5px 12px;
-    border: 1px solid var(--border);
-    border-radius: 6px;
-    text-decoration: none;
-    backdrop-filter: blur(10px);
-}
-
-.btn-editprofile:hover {
-    background: var(--border);
-    transition: 0.2s;
-
-}
-
-[data-theme="light"] .btn-editprofile {
-    color: #000;
-}

@@ -498,6 +498,10 @@ nav .connect { display: none; }
     fill: #ffffff;
 }
 
+.label-menu{
+    display: none;
+}
+
 
 
 /* ================================================================
@@ -534,7 +538,7 @@ nav .connect { display: none; }
     }
 
     .burger { display: block; }
-    .btn-connect { display: none; }
+    /* .btn-connect { display: none; } */
 
     nav .connect {
         display: block;
@@ -594,4 +598,15 @@ nav .connect { display: none; }
         min-width: 200px !important;
         backdrop-filter: blur(10px) !important;
     }
+
+    .modern-nav li.active a::after {
+        display: none;
+    }
+
+    .label-menu{
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #444;
+}
 }
