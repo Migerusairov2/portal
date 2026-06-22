@@ -1,7 +1,4 @@
 *.pyc
 .env
-*.jpg
-.env
 db.sqlite3
 *.sqlite3
-profile/services/github_api.py
