@@ -220,9 +220,6 @@
     <!-- <h2 style="text-align: center;">Edit Profile</h2> -->
     <form method="POST" enctype="multipart/form-data">
         {% csrf_token %}
-        <button type="submit">
-            Update
-        </button>
         <div class="container">
             <aside class="sidebar">
                 {% if profile.profile %}
@@ -307,6 +304,157 @@
                     </button>
                 </div>
             </aside>
+            <main>
+                <button type="submit" class="button-container">
+                    Save
+                </button>
+                <div class="tabs">
+                    <div class="tab active" data-tab="overview">Overview</div>
+                    <div class="tab" data-tab="projects">Projects</div>
+                </div>
+
+                <div class="tab-content active" id="overview">
+                    <h2 style="font-size:16px;font-weight:400;margin-bottom:16px;">
+                        Pinned
+                    </h2>
+                    <div class="repo-grid">
+
+                        {% for project in projects %}
+                        {% if project.pinned %}
+                        <div class="card">
+                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
+                                project.name }}</a>
+                            <p class="card-desc">
+                                {{ project.description|default:"No description provided." }}
+                            </p>
+                            <div class="card-meta">
+                                {% for lang in project.languages_used.all %}
+                                <span>
+                                    <span class="dot"
+                                        style="background:{{ lang.color_code }}; display:inline-block; vertical-align:middle; margin-right:4px;">
+                                    </span>
+                                    {{ lang.name }}
+                                </span>
+                                {% endfor %}
+                                <!-- <span>⭐ 248</span> -->
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                    <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
+                        Previews
+                    </h2>
+
+                    <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                text-align:center;
+                background:var(--bg-header);
+                ">
+                        {% for project in projects %}
+                        {% if project.pinned %}
+
+                        <h4 style="text-align: left; margin-top: -5px; font-size: 14px; font-weight: 600;">{{
+                            project.name
+                            }}</h4>
+
+                        <div class="repo-grid">
+                            {% for preview in project.images.all %}
+                            <div class="preview-card">
+                                <img src="{{ preview.image.url }}" alt="null">
+                            </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                        <div class="divider"></div>
+                        {% endif %}
+
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+                        </p>
+                        {% endfor %}
+                    </div>
+
+                    <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
+                        Trajectories
+                    </h2>
+
+                    <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                background:var(--bg-header);
+                backdrop-filter: blur(10px);
+                ">
+                        {% for trajectory in trajectories %}
+
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <i>
+                                    <p style="font-size: 14px; font-weight: 500;">{{ trajectory.job_position }}</p>
+                                </i>
+                            </div>
+                            <div>
+                                <i>
+                                    <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">{{
+                                        trajectory.date_start }} - {{ trajectory.date_end }}</p>
+                                </i>
+                            </div>
+                        </div>
+                        <p style="color:var(--text-muted);font-size:14px;margin:0;">
+                            {{ trajectory.description }}
+                        </p>
+                        <div class="divider"></div>
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="tab-content" id="projects">
+                    <h2>Projects</h2>
+                    <div class="repo-grid">
+
+                        {% for project in projects %}
+                        <div class="card">
+                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
+                                project.name }}</a>
+                            <p class="card-desc">
+                                {{ project.description|default:"No description provided." }}
+                            </p>
+                            <div class="card-meta">
+                                {% for lang in project.languages_used.all %}
+                                <span>
+                                    <span class="dot"
+                                        style="background:{{ lang.color_code }}; display:inline-block; vertical-align:middle; margin-right: 4px;">
+                                    </span>
+                                    {{ lang.name }}
+                                </span>
+                                {% endfor %}
+
+                                <!-- <span>⭐ 248</span> -->
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </main>
         </div>
     </form>
 

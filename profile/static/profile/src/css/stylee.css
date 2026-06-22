@@ -331,6 +331,32 @@
     color: #000;
 }
 
+.button-container {
+    display: block;
+    margin-left: auto;
+    color: white;
+    background: var(--bg-header);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+
+}
+.button-container:hover{
+    background: var(--border);
+    transition: 0.2s;
+    cursor: pointer;
+
+}
+
+[data-theme="light"] .button-container{
+    color: #000;
+}
+
+
 @media (max-width: 768px) {
 
     .container {
