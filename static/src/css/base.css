@@ -140,6 +140,43 @@ header {
 
 .modern-nav a:hover { color: var(--text-main); }
 
+.modern-nav li {
+    position: relative;
+}
+
+.modern-nav li.active a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5px;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.modern-nav li.active a{
+    color: #fff;
+}
+
+[data-theme="light"] .modern-nav li.active a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5px;
+    width: 3px;
+    height: 3px;
+    background: #000;
+    border-radius: 50%;
+}
+
+[data-theme="light"] .modern-nav li.active a{
+    color: #000;
+}
+
+
 /* ── icon buttons ── */
 .icon-btn {
     background: transparent;
