@@ -55,7 +55,7 @@ INSTALLED_APPS = [
 
     #Apps added
     'hero',
-    'profile',
+    'profile.apps.ProfileConfig',
     'training',
     'pdf_reports',
     # 'accounts'
@@ -162,10 +162,10 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # EMAIL_HOST_PASSWORD = 'lycv khdc ekqa jhgi'   # use env vars in production
 # DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-LOGIN_REDIRECT_URL = 'overview' #redirection after login
-# LOGOUT_REDIRECT_URL = ''
+LOGIN_REDIRECT_URL = 'profile' #redirection after login
+LOGOUT_REDIRECT_URL = 'profile'
 LOGIN_URL = 'login'
-
+SOCIALACCOUNT_LOGIN_ON_GET = True
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',

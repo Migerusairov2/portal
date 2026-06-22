@@ -73,7 +73,7 @@ class Profile(models.Model):
         return self.user.username
 
 class GithubRepository(models.Model):
-
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
     name = models.CharField(max_length=255)
     owner = models.CharField(max_length=255)
     repo_url = models.URLField(unique=True)
