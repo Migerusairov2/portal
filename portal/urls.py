@@ -21,17 +21,15 @@ from django.conf.urls.static import static
 from django.http import Http404
 from django.shortcuts import redirect
 
-
+    
 urlpatterns = [
-    path("accounts/signup/", lambda request: redirect("account_login")),
-
     path('admin/', admin.site.urls),
     path('', include('hero.urls')),
     path('', include('profile.urls')),
     path('', include('training.urls')),
     path('', include('pdf_reports.urls')),
-    path('accounts/', include('allauth.urls')),
-
+    path('', include('users.urls')),
+    path('', include('security.urls')),
 
 ]
 

@@ -50,16 +50,18 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
 
-    # Google Provider
+    # Providers
     'allauth.socialaccount.providers.google',
+    "allauth.socialaccount.providers.github",
 
     #Apps added
     'hero',
     'profile.apps.ProfileConfig',
     'training',
     'pdf_reports',
-    # 'accounts'
-]
+    'users',
+    'security'
+    ]
 
 SITE_ID = 1
 
@@ -78,6 +80,8 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    
+    'users.middleware.RequirePasswordSetupMiddleware',
 
 ]
 
@@ -158,20 +162,22 @@ STATICFILES_DIRS = [
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
-# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_HOST = 'smtp.gmail.com'        # your provider's SMTP host
-# EMAIL_PORT = 587
-# EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = 'miguel2001silos@gmail.com'
-# EMAIL_HOST_PASSWORD = 'lycv khdc ekqa jhgi'   # use env vars in production
-# DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'        # your provider's SMTP host
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'miguel2001silos@gmail.com'
+EMAIL_HOST_PASSWORD = 'lycv khdc ekqa jhgi'   # use env vars in production
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 LOGIN_REDIRECT_URL = 'profile' #redirection after login
-LOGOUT_REDIRECT_URL = 'profile'
-LOGIN_URL = 'login'
+LOGOUT_REDIRECT_URL = '/accounts/login/'
+LOGIN_URL = 'account_login'
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_LOGIN_ON_GET = True
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'allauth.account.auth_backends.AuthenticationBackend',
 ]
+
+ACCOUNT_ADAPTER = "users.adapters.CustomAccountAdapter"
