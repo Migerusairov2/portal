@@ -140,6 +140,43 @@ header {
 
 .modern-nav a:hover { color: var(--text-main); }
 
+.modern-nav li {
+    position: relative;
+}
+
+.modern-nav li.active a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5px;
+    width: 3px;
+    height: 3px;
+    background: #fff;
+    border-radius: 50%;
+}
+
+.modern-nav li.active a{
+    color: #fff;
+}
+
+[data-theme="light"] .modern-nav li.active a::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    bottom: 5px;
+    width: 3px;
+    height: 3px;
+    background: #000;
+    border-radius: 50%;
+}
+
+[data-theme="light"] .modern-nav li.active a{
+    color: #000;
+}
+
+
 /* ── icon buttons ── */
 .icon-btn {
     background: transparent;
@@ -461,6 +498,10 @@ nav .connect { display: none; }
     fill: #ffffff;
 }
 
+.label-menu{
+    display: none;
+}
+
 
 
 /* ================================================================
@@ -497,7 +538,7 @@ nav .connect { display: none; }
     }
 
     .burger { display: block; }
-    .btn-connect { display: none; }
+    /* .btn-connect { display: none; } */
 
     nav .connect {
         display: block;
@@ -557,4 +598,15 @@ nav .connect { display: none; }
         min-width: 200px !important;
         backdrop-filter: blur(10px) !important;
     }
+
+    .modern-nav li.active a::after {
+        display: none;
+    }
+
+    .label-menu{
+    display: block;
+    font-size: 12px;
+    font-weight: 700;
+    color: #444;
+}
 }

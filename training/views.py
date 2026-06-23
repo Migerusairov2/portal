@@ -6,17 +6,11 @@ from .models import Guide
 from django.http import HttpResponse
 
 
-
 def trainings(request):
+    user = User.objects.filter(is_superuser=True).first()
 
-    if request.user.is_authenticated:
-        user = request.user
-    else:
-        user = User.objects.filter(is_superuser=True).first()
-
-        if not user:
-            return HttpResponse("No superuser found.")
-
+    if not user:
+        return HttpResponse("No superuser found.")
 
     trainings = user.certificates.select_related('training').order_by('-issued_at')
 
@@ -34,7 +28,7 @@ def trainings(request):
     # pprint(grouped_trainings, sort_dicts=False)
 
     context = {
-        'user': user,
+        # 'user': user, 
         'grouped_trainings': dict(grouped_trainings),
         'guides': guides
     }

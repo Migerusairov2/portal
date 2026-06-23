@@ -10,13 +10,10 @@ from textwrap import wrap
 
 def pdf_report(request):
 
-    if request.user.is_authenticated:
-        user = request.user
-    else:
-        user = User.objects.filter(is_superuser=True).first()
+    user = User.objects.filter(is_superuser=True).first()
 
-        if not user:
-            return HttpResponse("No superuser found.")
+    if not user:
+        return HttpResponse("No superuser found.")
 
     profile = Profile.objects.filter(user=user).first()
 

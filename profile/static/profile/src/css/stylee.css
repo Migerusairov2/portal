@@ -82,6 +82,9 @@
 .bio {
     margin: 16px 0;
     font-size: 16px;
+    white-space: normal;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
 }
 
 .lang-item {
@@ -298,69 +301,15 @@
     font-style: italic;
 }
 
-@media (max-width: 768px) {
-
-    .container {
-        grid-template-columns: 1fr;
-    }
-    
-    .sidebar-img {
-        width: 120px;
-        margin: 0 auto 16px;
-    }
-
-    .repo-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .lang-item {
-        justify-content: center;
-    }
+.media {
+    text-decoration: none;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--text-muted)
 }
-
-.toast {
-    background: #10b981;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 3px;
-    display: none;
-    font-size: 14px;
-}
-
-.toast.error {
-    background: #ef4444;
-}
-
-.loader {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  display: inline-block;
-
-  border-top: 3px solid #10b981; /* green */
-  border-right: 3px solid transparent;
-
-  box-sizing: border-box;
-  animation: rotation 1s linear infinite;
-  vertical-align: middle;
-}
-
-[data-theme="light"] .loader {
-     color: #000;
-}
-
-
-
-@keyframes rotation {
-  0% {
-    transform: rotate(0deg);
-  }
-  100% {
-    transform: rotate(360deg);
-  }
-} 
 
 .btn-editprofile {
+    display: flex; 
     color: white;
     background: var(--bg-header);
     font-size: 12px;
@@ -381,3 +330,106 @@
 [data-theme="light"] .btn-editprofile {
     color: #000;
 }
+
+.button-container {
+    display: block;
+    margin-left: auto;
+    color: white;
+    background: var(--bg-header);
+    font-size: 12px;
+    font-weight: 500;
+    padding: 5px 12px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    text-decoration: none;
+    backdrop-filter: blur(10px);
+
+}
+.button-container:hover{
+    background: var(--border);
+    transition: 0.2s;
+    cursor: pointer;
+
+}
+
+[data-theme="light"] .button-container{
+    color: #000;
+}
+
+
+@media (max-width: 768px) {
+
+    .container {
+        grid-template-columns: 1fr;
+    }
+
+    .sidebar-img {
+        width: 120px;
+        margin: 0 auto 16px;
+    }
+
+    .repo-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .lang-item {
+        justify-content: center;
+    }
+
+    .bio {
+        font-size: 14px;
+        width: 100%;
+        max-width: 100%;
+        white-space: pre-line;
+        overflow-wrap: anywhere;
+    }
+
+    .btn-editprofile {
+        display: none;
+    }
+}
+
+.toast {
+    background: #10b981;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 3px;
+    display: none;
+    font-size: 14px;
+}
+
+.toast.error {
+    background: #ef4444;
+}
+
+.loader {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    display: inline-block;
+
+    border-top: 3px solid #10b981;
+    /* green */
+    border-right: 3px solid transparent;
+
+    box-sizing: border-box;
+    animation: rotation 1s linear infinite;
+    vertical-align: middle;
+}
+
+[data-theme="light"] .loader {
+    color: #000;
+}
+
+
+
+@keyframes rotation {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+

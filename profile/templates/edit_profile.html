@@ -1,11 +1,555 @@
-<h2>Edit Profile</h2>
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
 
-<form method="POST">
-    {% csrf_token %}
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>_Miguel.Dev</title>
+    <link rel="stylesheet" href="{% static 'src/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/src/css/stylee.css' %}">
+    <style>
+        .add-btn {
+            color: white;
+            background: var(--bg-header);
+            font-size: 12px;
+            font-weight: 500;
+            padding: 5px 12px;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            width: 100%;
+        }
 
-    {{ form.description }}
+        .add-btn:hover {
+            background: #1f2328;
+            cursor: pointer;
 
-    <button type="submit">
-        Save Changes
+        }
+
+        [data-theme="light"] .add-btn {
+            color: #000;
+        }
+
+        [data-theme="light"] .add-btn:hover {
+            background: #ffffff;
+            cursor: pointer;
+
+        }
+
+
+
+        dialog {
+
+            width: 400px;
+
+            border: 1px solid #d0d7de;
+
+            border-radius: 10px;
+
+            padding: 25px;
+
+            box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
+
+        }
+
+
+        dialog::backdrop {
+
+            background: rgba(0, 0, 0, .5);
+
+        }
+
+
+        dialog h3 {
+
+            margin-top: 0;
+
+        }
+
+
+        dialog label {
+
+            display: block;
+
+            margin-top: 15px;
+
+            font-weight: 600;
+
+        }
+
+
+        dialog input {
+
+            width: 100%;
+
+            padding: 8px;
+
+            margin-top: 5px;
+
+            border: 1px solid #d0d7de;
+
+            border-radius: 6px;
+
+        }
+
+
+        .dialog-buttons {
+
+            display: flex;
+
+            justify-content: flex-end;
+
+            gap: 10px;
+
+            margin-top: 20px;
+
+        }
+
+        .media {
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            color: var(--text-muted)
+        }
+
+        .remove-icon {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            width: 22px;
+            height: 22px;
+
+            margin-left: auto;
+
+            color: #555;
+            background: transparent;
+
+            text-decoration: none;
+
+            font-size: 18px;
+            font-weight: 600;
+
+            line-height: 1;
+
+            cursor: pointer;
+
+            transition: 0.2s;
+        }
+
+        .remove-icon:hover {
+            color: #cf222e;
+        }
+
+        .text-area {
+            color: white;
+            background: var(--bg-header);
+            font-size: 14px;
+            font-weight: 500;
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            text-decoration: none;
+            backdrop-filter: blur(10px);
+            width: 100%;
+            resize: none;
+            padding: 5px;
+
+            overflow-y: auto;
+
+            /* Firefox scrollbar */
+            scrollbar-width: thin;
+            scrollbar-color: #888 transparent;
+            margin-top: 10px;
+        }
+
+        [data-theme="light"] .text-area {
+            color: #000;
+        }
+
+        .profile-input {
+            color: white;
+            background: var(--bg-header);
+            border: 1px solid var(--border);
+            border-radius: 6px;
+            padding: 5px;
+            width: 100%;
+        }
+
+        [data-theme="light"] .profile-input {
+            color: #000;
+        }
+
+        .profile-input::file-selector-button {
+            background: var(--border);
+            color: white;
+            border: none;
+            border-radius: 6px;
+            padding: 8px 14px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+        }
+
+        [data-theme="light"] .profile-input::file-selector-button {
+            background: #555;
+        }
+
+        .profile-input::file-selector-button:hover {
+            background: #555;
+        }
+
+        [data-theme="light"] .profile-input::file-selector-button:hover {
+            background: #333;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="animated-bg">
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+        <span></span>
+    </div>
+    {% include 'header/header.html' %}
+
+    <!-- <h2 style="text-align: center;">Edit Profile</h2> -->
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+            <aside class="sidebar">
+                {% if profile.profile %}
+                <div style="text-align: center;">
+                    <img src="{{ profile.profile.url }}" class="sidebar-img">
+                </div>
+                {% endif %}
+                {{ form.profile }}
+                <div class="profile">
+                    <h1>{{ profile.user.username }}</h1>
+                    <p>{{ profile.user.email}}</p>
+                </div>
+
+                {{ form.description }}
+
+                <div class="sidebar-section">
+                    <h3 style="font-weight: 500; font-size: smaller;">Social Media</h3>
+                    <h4>Accounts</h4>
+                    {% for media in social_medias %}
+                    <div class="lang-item">
+                        {% if media.logo %}
+                        <span class="dot">
+                            <img src="{{ media.logo.url }}" alt="framework"
+                                style="width: 100%; height: 100%; object-fit: cover; margin-bottom: 10px ; border-radius: 30px;" />
+                        </span>
+                        {% endif %}
+
+                        <a href="{{ media.url }}" class="media">{{ media.name }}</a>
+                        {% if is_edit %}
+                        <a href="{% url 'delete_social_media' media.id %}"
+                            onclick="return confirm('Remove {{ media.name }}?');" class="remove-icon"
+                            title="Remove {{ media.name }}">
+                            &times;
+                        </a>
+                        {% endif %}
+                    </div>
+
+
+                    {% empty %}
+                    <p>No selected accounts.</p>
+                    {% endfor %}
+                    <button type="button" class="add-btn" onclick="document.getElementById('socialDialog').showModal()">
+                        Add Account
+                    </button>
+
+                    <h3 style="font-weight: 500; font-size: smaller;">Experience with</h3>
+                    <h4>Frameworks</h4>
+                    {% for lang in frameworks.all %}
+                    <div class="lang-item">
+                        {% if lang.logo %}
+                        <span class="dot">
+                            <img src="{{ lang.logo.url }}" alt="framework"
+                                style="width: 100%; height: 100%; object-fit: cover; margin-bottom: 10px ; border-radius: 30px;" />
+                        </span>
+                        {% endif %}
+                        {{ lang.name }}
+                        <a href="{% url 'remove_framework' lang.id %}"
+                            onclick="return confirm('Remove this {{ lang.name }} framework?');" class="remove-icon">
+                            &times;
+                        </a>
+                    </div>
+                    {% empty %}
+                    <p>No Frameworks selected.</p>
+                    {% endfor %}
+                    <button type="button" onclick="document.getElementById('frameworkDialog').showModal()"
+                        class="add-btn">
+                        Add Framework
+                    </button>
+
+                    <h4>Languages</h4>
+                    {% for lang in languages.all %}
+                    <div class="lang-item">
+                        <span class="dot" style="background: {{ lang.color_code }};"></span>
+                        {{ lang.name }}
+                    </div>
+                    {% empty %}
+                    <p>No languages selected.</p>
+                    {% endfor %}
+                    <button type="button" onclick="document.getElementById('languageDialog').showModal()"
+                        class="add-btn">
+                        Add Language
+                    </button>
+                </div>
+            </aside>
+            <main>
+                <button type="submit" class="button-container">
+                    Save
+                </button>
+                <div class="tabs">
+                    <div class="tab active" data-tab="overview">Overview</div>
+                    <div class="tab" data-tab="projects">Projects</div>
+                </div>
+
+                <div class="tab-content active" id="overview">
+                    <h2 style="font-size:16px;font-weight:400;margin-bottom:16px;">
+                        Pinned
+                    </h2>
+                    <div class="repo-grid">
+
+                        {% for project in projects %}
+                        {% if project.pinned %}
+                        <div class="card">
+                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
+                                project.name }}</a>
+                            <p class="card-desc">
+                                {{ project.description|default:"No description provided." }}
+                            </p>
+                            <div class="card-meta">
+                                {% for lang in project.languages_used.all %}
+                                <span>
+                                    <span class="dot"
+                                        style="background:{{ lang.color_code }}; display:inline-block; vertical-align:middle; margin-right:4px;">
+                                    </span>
+                                    {{ lang.name }}
+                                </span>
+                                {% endfor %}
+                                <!-- <span>⭐ 248</span> -->
+                            </div>
+                        </div>
+                        {% endif %}
+
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                    <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
+                        Previews
+                    </h2>
+
+                    <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                text-align:center;
+                background:var(--bg-header);
+                ">
+                        {% for project in projects %}
+                        {% if project.pinned %}
+
+                        <h4 style="text-align: left; margin-top: -5px; font-size: 14px; font-weight: 600;">{{
+                            project.name
+                            }}</h4>
+
+                        <div class="repo-grid">
+                            {% for preview in project.images.all %}
+                            <div class="preview-card">
+                                <img src="{{ preview.image.url }}" alt="null">
+                            </div>
+                            {% empty %}
+                            {% endfor %}
+                        </div>
+                        <div class="divider"></div>
+                        {% endif %}
+
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+                        </p>
+                        {% endfor %}
+                    </div>
+
+                    <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
+                        Trajectories
+                    </h2>
+
+                    <div style="
+                border:1px solid var(--border);
+                border-radius:6px;
+                padding:16px;
+                background:var(--bg-header);
+                backdrop-filter: blur(10px);
+                ">
+                        {% for trajectory in trajectories %}
+
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <i>
+                                    <p style="font-size: 14px; font-weight: 500;">{{ trajectory.job_position }}</p>
+                                </i>
+                            </div>
+                            <div>
+                                <i>
+                                    <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">{{
+                                        trajectory.date_start }} - {{ trajectory.date_end }}</p>
+                                </i>
+                            </div>
+                        </div>
+                        <p style="color:var(--text-muted);font-size:14px;margin:0;">
+                            {{ trajectory.description }}
+                        </p>
+                        <div class="divider"></div>
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+                <div class="tab-content" id="projects">
+                    <h2>Projects</h2>
+                    <div class="repo-grid">
+
+                        {% for project in projects %}
+                        <div class="card">
+                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
+                                project.name }}</a>
+                            <p class="card-desc">
+                                {{ project.description|default:"No description provided." }}
+                            </p>
+                            <div class="card-meta">
+                                {% for lang in project.languages_used.all %}
+                                <span>
+                                    <span class="dot"
+                                        style="background:{{ lang.color_code }}; display:inline-block; vertical-align:middle; margin-right: 4px;">
+                                    </span>
+                                    {{ lang.name }}
+                                </span>
+                                {% endfor %}
+
+                                <!-- <span>⭐ 248</span> -->
+                            </div>
+                        </div>
+
+                        {% empty %}
+                        <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+                        </p>
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+            </main>
+        </div>
+    </form>
+
+    <script src="{% static 'src/js/base.js' %}"></script>
+
+</body>
+
+</html>
+
+
+<dialog id="socialDialog">
+
+    <form method="POST" action="{% url 'add_social_media' %}" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <h3>Add Social Media</h3>
+
+
+        <label>
+            Platform Name
+        </label>
+
+        {{ social_form.name }}
+
+
+        <label>
+            URL
+        </label>
+
+        {{ social_form.url }}
+
+
+        <label>
+            Logo (maintenance - make AI generated or automation)
+        </label>
+
+        {{ social_form.logo }}
+
+
+        <div class="dialog-buttons">
+            <button type="submit">
+                Add
+            </button>
+            <button type="button" onclick="document.getElementById('socialDialog').close()">
+                Cancel
+            </button>
+
+        </div>
+
+    </form>
+
+</dialog>
+
+<dialog id="frameworkDialog">
+    {% for framework in available_frameworks %}
+    <form method="post" action="{% url 'add_framework' %}">
+        {% csrf_token %}
+        <input type="hidden" name="framework_id" value="{{ framework.id }}">
+
+        <button type="submit" class="lang-item">
+            {% if framework.logo %}
+            <img src="{{ framework.logo.url }}" style="width:24px;height:24px;border-radius:50%;">
+            {% endif %}
+            {{ framework.name }}
+        </button>
+
+    </form>
+    {% empty %}
+    <p>All frameworks have been added.</p>
+    {% endfor %}
+    <div class="dialog-buttons">
+
+        <button type="button" onclick="document.getElementById('frameworkDialog').close()">
+            Cancel
+        </button>
+    </div>
+</dialog>
+
+<dialog id="languageDialog">
+    {% for lang in available_languages %}
+    <form method="post" action="{% url 'add_language' %}">
+        {% csrf_token %}
+        <input type="hidden" name="language_id" value="{{ lang.id }}">
+
+        <button type="submit" class="lang-item">
+            <span class="dot" style="background: {{ lang.color_code }};"></span>
+            {{ lang.name }}
+        </button>
+    </form>
+    {% empty %}
+    <p>All languages have been added.</p>
+    {% endfor %}
+
+    <button type="button" onclick="document.getElementById('languageDialog').close()">
+        Cancel
     </button>
-</form>
+</dialog>

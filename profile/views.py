@@ -1,12 +1,12 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User 
-from .models import Profile, Project, Trajectory, SocialMedia, GithubRepository, GithubCommit
+from .models import Profile, Project, Trajectory, SocialMedia, GithubRepository, GithubCommit, Framework, Language
 from django.db.models import Prefetch
 from django.core.management import call_command
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-
+from .forms import ProfileForm, SocialMediaForm
 
 
 def profile(request):
@@ -65,26 +65,6 @@ def profile(request):
 
     return render(request, 'profile.html', context)
 
-
-from .forms import ProfileForm
-
-def edit_profile(request):
-    profile = request.user.profile
-
-    if request.method == 'POST':
-        form = ProfileForm(request.POST, instance=profile)
-
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    else:
-        form = ProfileForm(instance=profile)
-
-    return render(request, 'edit_profile.html', {
-        'form': form
-    })
-
-
 @login_required
 def sync_github(request):
 
@@ -101,3 +81,107 @@ def sync_github(request):
     else:
         print('False')
         return JsonResponse({"success": False})
+    
+
+def edit_profile(request):
+    user = request.user
+    profile = user.profile
+    social_medias = SocialMedia.objects.filter(user=user)
+
+    frameworks = profile.frameworks.all()
+    available_frameworks = Framework.objects.exclude(
+    id__in=frameworks.values_list('id', flat=True))
+
+    languages = profile.languages.all()
+    available_languages = Language.objects.exclude(
+    id__in=languages.values_list('id', flat=True)
+    )
+
+    social_form = SocialMediaForm()
+
+
+    if request.method == 'POST':
+        form = ProfileForm(request.POST, request.FILES, instance=profile)
+
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = ProfileForm(instance=profile)
+
+    return render(request, 'edit_profile.html', {
+        'form': form,
+        'profile': profile,
+        'social_medias': social_medias,
+        'social_form': social_form,
+        'frameworks': frameworks,
+        'available_frameworks': available_frameworks,
+        'languages': languages,
+        'available_languages': available_languages,
+        'is_edit': True,
+    })
+
+def add_social_media(request):
+
+    if request.method == "POST":
+
+        form = SocialMediaForm(
+            request.POST,
+            request.FILES
+        )
+
+        if form.is_valid():
+
+            social = form.save(commit=False)
+
+            social.user = request.user
+
+            social.save()
+
+            return redirect('edit_profile')
+
+    return redirect('edit_profile')
+
+def delete_social_media(request, id):
+
+    media = get_object_or_404(
+        SocialMedia,
+        id=id,
+        user=request.user
+    )
+
+    media.delete()
+
+    return redirect('edit_profile')
+
+
+def remove_framework(request, id):
+    framework = get_object_or_404(Framework, id=id)
+
+    profile = request.user.profile
+    profile.frameworks.remove(framework)
+
+    return redirect("profile")
+
+@login_required
+def add_framework(request):
+    if request.method == "POST":
+        framework = get_object_or_404(
+            Framework,
+            id=request.POST.get("framework_id")
+        )
+
+        request.user.profile.frameworks.add(framework)
+
+    return redirect('edit_profile')
+
+def add_language(request):
+    if request.method == "POST":
+        language = get_object_or_404(
+            Language,
+            id=request.POST.get("language_id")
+        )
+
+        request.user.profile.languages.add(language)
+
+    return redirect("edit_profile")
