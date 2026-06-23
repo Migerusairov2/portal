@@ -8,7 +8,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
     <link rel="stylesheet" href="{% static 'src/css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/src/css/stylee.css' %}">
+    <link rel="stylesheet" href="{% static 'profile/src/css/style.css' %}">
 </head>
 
 <body>
@@ -30,7 +30,7 @@
             <div style="text-align: center;">
                 {% if avatar %}
                 <img src="{{ avatar }}" alt="Profile Picture" class="sidebar-img" />
-                {% endif %} 
+                {% endif %}
             </div>
             <!-- <div>
                 {% if user.is_authenticated %}
@@ -126,8 +126,9 @@
                     {% for project in projects %}
                     {% if project.pinned %}
                     <div class="card">
-                        <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
-                            project.name }}</a>
+                        <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">
+                            {{ project.name }}
+                        </a>
                         <p class="card-desc">
                             {{ project.description|default:"No description provided." }}
                         </p>
@@ -150,37 +151,33 @@
                     {% endfor %}
 
                 </div>
-
                 <h2 style="font-size:16px;font-weight:400;margin:32px 0 16px;">
                     Previews
                 </h2>
 
-                <div style="
-                border:1px solid var(--border);
-                border-radius:6px;
-                padding:16px;
-                text-align:center;
-                background:var(--bg-header);
-                ">
+                <div>
                     {% for project in projects %}
                     {% if project.pinned %}
 
-                    <h4 style="text-align: left; margin-top: -5px; font-size: 14px; font-weight: 600;">{{ project.name
-                        }}</h4>
+                    <h4 style="font-size: 13px; font-weight: 600; text-align: left;">
+                        {{ project.name }}
+                    </h4>
 
                     <div class="repo-grid">
                         {% for preview in project.images.all %}
                         <div class="preview-card">
-                            <img src="{{ preview.image.url }}" alt="null">
+                            <a href="{{ preview.image.url }}" target="_blank" rel="noopener noreferrer">
+                                <img src="{{ preview.image.url }}" alt="{{ project.name }} preview">
+                            </a>
                         </div>
-                        {% empty %}
                         {% endfor %}
                     </div>
-                    <div class="divider"></div>
-                    {% endif %}
 
+                    {% endif %}
                     {% empty %}
-                    <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.</p>
+                    <p style="font-size: 12px; color: var(--text-muted); text-align: center; margin: 0;">
+                        Doesn't have any projects uploaded yet.
+                    </p>
                     {% endfor %}
                 </div>
 
@@ -188,13 +185,7 @@
                     Trajectories
                 </h2>
 
-                <div style="
-                border:1px solid var(--border);
-                border-radius:6px;
-                padding:16px;
-                background:var(--bg-header);
-                backdrop-filter: blur(10px);
-                ">
+                <div class="trajectories">
                     {% for trajectory in trajectories %}
 
                     <div style="display: flex; justify-content: space-between;">
@@ -205,15 +196,16 @@
                         </div>
                         <div>
                             <i>
-                                <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">{{
-                                    trajectory.date_start }} - {{ trajectory.date_end }}</p>
+                                <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">
+                                    {{ trajectory.date_start }} - {{ trajectory.date_end }}
+                                </p>
                             </i>
                         </div>
                     </div>
                     <p style="color:var(--text-muted);font-size:14px;margin:0;">
                         {{ trajectory.description }}
                     </p>
-                    <div class="divider"></div>
+                    <br>
                     {% empty %}
                     <p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
                     {% endfor %}
@@ -227,8 +219,9 @@
 
                     {% for project in projects %}
                     <div class="card">
-                        <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
-                            project.name }}</a>
+                        <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">
+                            {{ project.name }}
+                        </a>
                         <p class="card-desc">
                             {{ project.description|default:"No description provided." }}
                         </p>
@@ -303,8 +296,6 @@
                         <button type="submit">Search</button>
                     </form>
                 </div> -->
-
-
 
             </div>
 
