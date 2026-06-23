@@ -1,12 +1,16 @@
 import os
 import requests
 from dotenv import load_dotenv
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 from django.contrib.auth.models import User 
 from profile.models import Profile
 
 load_dotenv()
 
+<<<<<<< Updated upstream
 # superuser = User.objects.filter(is_superuser=True).first()
 # profile, created = Profile.objects.get_or_create(user=superuser)
 
@@ -38,6 +42,23 @@ def get_headers(user):
 def fetch_personal_repositories(user):
 
     headers = get_headers(user)
+=======
+superuser = User.objects.filter(is_superuser=True).first()
+profile, created = Profile.objects.get_or_create(user=superuser)
+
+TOKEN = f'{profile.github_token}'
+
+if not TOKEN:
+    raise ValueError("GITHUB_TOKEN is not set in .env file or Github Token is expired!")
+
+headers = {
+    "Authorization": f"Bearer {TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
+
+
+def fetch_personal_repositories():
+>>>>>>> Stashed changes
 
     url = "https://api.github.com/user/repos"
 
@@ -58,8 +79,12 @@ def fetch_personal_repositories(user):
 
 GITHUB_API = "https://api.github.com"
 
+<<<<<<< Updated upstream
 def fetch_commits(user, owner, repo):
     headers = get_headers(user)
+=======
+def fetch_commits(owner, repo):
+>>>>>>> Stashed changes
     url = f"{GITHUB_API}/repos/{owner}/{repo}/commits?per_page=100"
     r = requests.get(url, headers=headers, timeout=30)
 
