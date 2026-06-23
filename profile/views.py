@@ -175,14 +175,16 @@ def remove_framework(request, id):
 @login_required
 def add_framework(request):
     if request.method == "POST":
-        framework = get_object_or_404(
-            Framework,
-            id=request.POST.get("framework_id")
+
+        framework_ids = request.POST.getlist("framework_ids")
+
+        frameworks = Framework.objects.filter(
+            id__in=framework_ids
         )
 
-        request.user.profile.frameworks.add(framework)
+        request.user.profile.frameworks.add(*frameworks)
 
-    return redirect('edit_profile')
+    return redirect("edit_profile")
 
 def remove_language(request, language_id):
     language = get_object_or_404(Language, id=language_id)

@@ -63,8 +63,7 @@
                             class="edit-icon" title="Edit {{ media.name }}">
                             &#9998;
                         </button> -->
-                        <a href="{% url 'delete_social_media' media.id %}"
-                            onclick="return confirm('Remove {{ media.name }}?');" class="remove-icon"
+                        <a href="{% url 'delete_social_media' media.id %}" class="remove-icon"
                             title="Remove {{ media.name }}">
                             &times;
                         </a>
@@ -88,8 +87,7 @@
                         </span>
                         {% endif %}
                         {{ lang.name }}
-                        <a href="{% url 'remove_framework' lang.id %}"
-                            onclick="return confirm('Remove this {{ lang.name }} framework?');" class="remove-icon">
+                        <a href="{% url 'remove_framework' lang.id %}" class="remove-icon">
                             &times;
                         </a>
                     </div>
@@ -101,13 +99,12 @@
                         Add Framework
                     </button>
 
-                    <h4>Languages</h4>
+                    <!-- <h4>Languages</h4>
                     {% for lang in languages.all %}
                     <div class="lang-item">
                         <span class="dot" style="background: {{ lang.color_code }};"></span>
                         {{ lang.name }}
-                        <a href="{% url 'remove_language' lang.id %}"
-                            onclick="return confirm('Remove {{ lang.name }}?');" class="remove-icon">&times;</a>
+                        <a href="{% url 'remove_language' lang.id %}" class="remove-icon">&times;</a>
                     </div>
                     {% empty %}
                     <p>No languages selected.</p>
@@ -115,7 +112,7 @@
                     <button type="button" onclick="document.getElementById('languageDialog').showModal()"
                         class="add-btn">
                         Add Language
-                    </button>
+                    </button> -->
                 </div>
             </aside>
             <main>
@@ -288,11 +285,8 @@
                         <p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
                         </p>
                         {% endfor %}
-
                     </div>
-
                 </div>
-
             </main>
         </div>
     </form>
@@ -318,7 +312,6 @@
                 });
             });
 
-            // SELECT / DESELECT
             options.forEach(opt => {
                 opt.addEventListener("click", function () {
                     const id = this.dataset.id;
@@ -348,6 +341,112 @@
             }
 
         });
+
+        // document.addEventListener("DOMContentLoaded", () => {
+
+        //     const frameworkDialog = document.getElementById("frameworkDialog");
+
+        //     if (!frameworkDialog) return;
+
+        //     const searchInput = frameworkDialog.querySelector("#frameworkSearch");
+        //     const options = frameworkDialog.querySelectorAll(".option");
+        //     const selectedContainer = frameworkDialog.querySelector("#selectedFrameworks");
+        //     const hiddenInputsContainer = frameworkDialog.querySelector("#hiddenInputs");
+
+        //     const selectedFrameworks = new Map();
+
+
+        //     function renderSelected() {
+
+        //         selectedContainer.innerHTML = "";
+        //         hiddenInputsContainer.innerHTML = "";
+
+        //         selectedFrameworks.forEach((name, id) => {
+
+        //             const tag = document.createElement("div");
+        //             tag.className = "tag";
+
+        //             tag.innerHTML = `
+        //         ${name}
+        //         <span data-id="${id}">&times;</span>
+        //     `;
+
+        //             selectedContainer.appendChild(tag);
+
+        //             const hiddenInput = document.createElement("input");
+        //             hiddenInput.type = "hidden";
+        //             hiddenInput.name = "framework_ids";
+        //             hiddenInput.value = id;
+
+        //             hiddenInputsContainer.appendChild(hiddenInput);
+        //         });
+
+
+        //         selectedContainer.querySelectorAll("span[data-id]").forEach(btn => {
+
+        //             btn.addEventListener("click", () => {
+
+        //                 selectedFrameworks.delete(btn.dataset.id);
+
+        //                 renderSelected();
+
+        //             });
+
+        //         });
+
+        //     }
+
+
+        //     options.forEach(option => {
+
+        //         option.addEventListener("click", () => {
+
+        //             const id = option.dataset.id;
+        //             const name = option.dataset.name;
+
+        //             if (!selectedFrameworks.has(id)) {
+
+        //                 selectedFrameworks.set(id, name);
+
+        //                 renderSelected();
+
+        //             }
+
+        //         });
+
+        //     });
+
+
+        //     searchInput.addEventListener("input", () => {
+
+        //         const searchTerm = searchInput.value.trim().toLowerCase();
+
+        //         options.forEach(option => {
+
+        //             const frameworkName =
+        //                 option.dataset.name.toLowerCase();
+
+        //             option.style.display =
+        //                 frameworkName.includes(searchTerm)
+        //                     ? "flex"
+        //                     : "none";
+
+        //         });
+
+        //     });
+
+
+        //     frameworkDialog.addEventListener("close", () => {
+
+        //         searchInput.value = "";
+
+        //         options.forEach(option => {
+        //             option.style.display = "flex";
+        //         });
+
+        //     });
+
+        // });
 
     </script>
 
@@ -379,53 +478,86 @@
         {{ social_form.url }}
 
 
-        <label>
+        <!-- <label>
             Logo (maintenance - make AI generated or automation)
         </label>
 
-        {{ social_form.logo }}
-
-
-        <div class="dialog-buttons">
+        {{ social_form.logo }} -->
+        <div class="dialog-footer">
             <button type="submit">
                 Add
             </button>
             <button type="button" onclick="document.getElementById('socialDialog').close()">
                 Cancel
             </button>
-
         </div>
-
     </form>
 
 </dialog>
 
 <dialog id="frameworkDialog">
-    {% for framework in available_frameworks %}
-    <form method="post" action="{% url 'add_framework' %}">
-        {% csrf_token %}
-        <input type="hidden" name="framework_id" value="{{ framework.id }}">
 
-        <button type="submit" class="lang-item">
-            {% if framework.logo %}
-            <img src="{{ framework.logo.url }}" style="width:24px;height:24px;border-radius:50%;">
-            {% endif %}
-            {{ framework.name }}
-        </button>
+    <form method="post" action="{% url 'add_framework' %}">
+
+        {% csrf_token %}
+
+        <h3>Add Frameworks</h3>
+
+
+        <div class="multi-select">
+
+            <input type="text" id="frameworkSearch" placeholder="Search frameworks..." autocomplete="off">
+
+
+            <div id="selectedFrameworks" class="selected-items"></div>
+
+
+            <div id="frameworkOptions" class="options">
+
+                {% for framework in available_frameworks %}
+
+                <div class="option" data-id="{{ framework.id }}" data-name="{{ framework.name }}">
+
+                    {% if framework.logo %}
+                    <img src="{{ framework.logo.url }}">
+                    {% endif %}
+
+                    {{ framework.name }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div id="hiddenInputs"></div>
+
+        </div>
+
+
+        <div class="dialog-footer">
+
+            <button type="button" onclick="frameworkDialog.close()">
+                Cancel
+            </button>
+
+
+            <button type="submit">
+                Add Selected
+            </button>
+
+        </div>
+
 
     </form>
-    {% empty %}
-    <p>All frameworks have been added.</p>
-    {% endfor %}
-    <div class="dialog-buttons">
 
-        <button type="button" onclick="document.getElementById('frameworkDialog').close()">
-            Cancel
-        </button>
-    </div>
 </dialog>
 
 <dialog id="languageDialog">
+    <h3>
+        Add Languages
+    </h3>
     <form method="post" action="{% url 'add_language' %}">
         {% csrf_token %}
 
@@ -439,7 +571,8 @@
         <p>All languages have been added.</p>
         {% endif %}
 
-        <div class="dialog-actions">
+        <div class="dialog-footer">
+
             <button type="button" onclick="document.getElementById('languageDialog').close()">
                 Cancel
             </button>
@@ -496,12 +629,13 @@
 
         <div id="selectedInputs"></div>
 
-        <br>
+        <div class="dialog-footer">
 
-        <button type="submit">Save</button>
-        <button type="button" onclick="document.getElementById('addProjectDialog').close()">
-            Cancel
-        </button>
+            <button type="submit">Save</button>
+            <button type="button" onclick="document.getElementById('addProjectDialog').close()">
+                Cancel
+            </button>
+        </div>
     </form>
 </dialog>
 
@@ -548,17 +682,16 @@
             style="display: none;" onchange="previewEditImages(this, '{{ project.id }}')">
         <div id="editCaptionInputs{{ project.id }}"></div>
 
-        <br>
-        <button type="submit">Save</button>
-        <button type="button"
-            onclick="document.getElementById('editProjectDialog{{ project.id }}').close()">Cancel</button>
+        <div class="dialog-footer">
+            <button type="submit">Save</button>
+            <button type="button"
+                onclick="document.getElementById('editProjectDialog{{ project.id }}').close()">Cancel</button>
+        </div>
     </form>
 </dialog>
 
 
 {% empty %}
-<p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
-</p>
 {% endfor %}
 
 
@@ -578,10 +711,11 @@
             <input type="date" name="date_end" value="{{ trajectory.date_end|date:'Y-m-d' }}">
         </div>
 
-        <br>
-        <button type="submit">Save</button>
-        <button type="button"
-            onclick="document.getElementById('editTrajectoryDialog{{ trajectory.id }}').close()">Cancel</button>
+        <div class="dialog-footer">
+            <button type="submit">Save</button>
+            <button type="button"
+                onclick="document.getElementById('editTrajectoryDialog{{ trajectory.id }}').close()">Cancel</button>
+        </div>
     </form>
 </dialog>
 
@@ -608,7 +742,6 @@
 <div class="divider"></div>
 
 {% empty %}
-<p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
 {% endfor %}
 
 <dialog id="addTrajectoryDialog">
@@ -623,9 +756,10 @@
             <input type="date" name="date_start" required>
             <input type="date" name="date_end" placeholder="Leave blank if current">
         </div>
+        <div class="dialog-footer">
 
-        <br>
-        <button type="submit">Save</button>
-        <button type="button" onclick="document.getElementById('addTrajectoryDialog').close()">Cancel</button>
+            <button type="submit">Save</button>
+            <button type="button" onclick="document.getElementById('addTrajectoryDialog').close()">Cancel</button>
+        </div>
     </form>
 </dialog>
