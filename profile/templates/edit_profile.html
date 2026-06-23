@@ -7,203 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>_Miguel.Dev</title>
     <link rel="stylesheet" href="{% static 'src/css/base.css' %}">
-    <link rel="stylesheet" href="{% static 'profile/src/css/stylee.css' %}">
-    <style>
-        .add-btn {
-            color: white;
-            background: var(--bg-header);
-            font-size: 12px;
-            font-weight: 500;
-            padding: 5px 12px;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-            width: 100%;
-        }
-
-        .add-btn:hover {
-            background: #1f2328;
-            cursor: pointer;
-
-        }
-
-        [data-theme="light"] .add-btn {
-            color: #000;
-        }
-
-        [data-theme="light"] .add-btn:hover {
-            background: #ffffff;
-            cursor: pointer;
-
-        }
-
-
-
-        dialog {
-
-            width: 400px;
-
-            border: 1px solid #d0d7de;
-
-            border-radius: 10px;
-
-            padding: 25px;
-
-            box-shadow: 0 8px 30px rgba(0, 0, 0, .2);
-
-        }
-
-
-        dialog::backdrop {
-
-            background: rgba(0, 0, 0, .5);
-
-        }
-
-
-        dialog h3 {
-
-            margin-top: 0;
-
-        }
-
-
-        dialog label {
-
-            display: block;
-
-            margin-top: 15px;
-
-            font-weight: 600;
-
-        }
-
-
-        dialog input {
-
-            width: 100%;
-
-            padding: 8px;
-
-            margin-top: 5px;
-
-            border: 1px solid #d0d7de;
-
-            border-radius: 6px;
-
-        }
-
-
-        .dialog-buttons {
-
-            display: flex;
-
-            justify-content: flex-end;
-
-            gap: 10px;
-
-            margin-top: 20px;
-
-        }
-
-        .media {
-            text-decoration: none;
-            font-size: 12px;
-            font-weight: 600;
-            color: var(--text-muted)
-        }
-
-        .remove-icon {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-
-            width: 22px;
-            height: 22px;
-
-            margin-left: auto;
-
-            color: #555;
-            background: transparent;
-
-            text-decoration: none;
-
-            font-size: 18px;
-            font-weight: 600;
-
-            line-height: 1;
-
-            cursor: pointer;
-
-            transition: 0.2s;
-        }
-
-        .remove-icon:hover {
-            color: #cf222e;
-        }
-
-        .text-area {
-            color: white;
-            background: var(--bg-header);
-            font-size: 14px;
-            font-weight: 500;
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            text-decoration: none;
-            backdrop-filter: blur(10px);
-            width: 100%;
-            resize: none;
-            padding: 5px;
-
-            overflow-y: auto;
-
-            /* Firefox scrollbar */
-            scrollbar-width: thin;
-            scrollbar-color: #888 transparent;
-            margin-top: 10px;
-        }
-
-        [data-theme="light"] .text-area {
-            color: #000;
-        }
-
-        .profile-input {
-            color: white;
-            background: var(--bg-header);
-            border: 1px solid var(--border);
-            border-radius: 6px;
-            padding: 5px;
-            width: 100%;
-        }
-
-        [data-theme="light"] .profile-input {
-            color: #000;
-        }
-
-        .profile-input::file-selector-button {
-            background: var(--border);
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 8px 14px;
-            cursor: pointer;
-            font-size: 12px;
-            font-weight: 500;
-        }
-
-        [data-theme="light"] .profile-input::file-selector-button {
-            background: #555;
-        }
-
-        .profile-input::file-selector-button:hover {
-            background: #555;
-        }
-
-        [data-theme="light"] .profile-input::file-selector-button:hover {
-            background: #333;
-        }
-    </style>
+    <link rel="stylesheet" href="{% static 'profile/src/css/style.css' %}">
 </head>
 
 <body>
@@ -222,11 +26,17 @@
         {% csrf_token %}
         <div class="container">
             <aside class="sidebar">
-                {% if profile.profile %}
-                <div style="text-align: center;">
-                    <img src="{{ profile.profile.url }}" class="sidebar-img">
+                <div class="avatar-container">
+                    <div style="text-align: center;">
+                        {% if profile.profile %}
+                        <img src="{{ profile.profile.url }}" class="sidebar-img">
+                        {% endif %}
+
+                    </div>
+                    <label for="id_profile" class="btn-editprofile">
+                        Edit Profile
+                    </label>
                 </div>
-                {% endif %}
                 {{ form.profile }}
                 <div class="profile">
                     <h1>{{ profile.user.username }}</h1>
@@ -249,6 +59,10 @@
 
                         <a href="{{ media.url }}" class="media">{{ media.name }}</a>
                         {% if is_edit %}
+                        <!-- <button onclick="openEditModal('{{ media.id }}', '{{ media.name }}', '{{ media.url }}')"
+                            class="edit-icon" title="Edit {{ media.name }}">
+                            &#9998;
+                        </button> -->
                         <a href="{% url 'delete_social_media' media.id %}"
                             onclick="return confirm('Remove {{ media.name }}?');" class="remove-icon"
                             title="Remove {{ media.name }}">
@@ -256,8 +70,6 @@
                         </a>
                         {% endif %}
                     </div>
-
-
                     {% empty %}
                     <p>No selected accounts.</p>
                     {% endfor %}
@@ -294,6 +106,8 @@
                     <div class="lang-item">
                         <span class="dot" style="background: {{ lang.color_code }};"></span>
                         {{ lang.name }}
+                        <a href="{% url 'remove_language' lang.id %}"
+                            onclick="return confirm('Remove {{ lang.name }}?');" class="remove-icon">&times;</a>
                     </div>
                     {% empty %}
                     <p>No languages selected.</p>
@@ -318,12 +132,12 @@
                         Pinned
                     </h2>
                     <div class="repo-grid">
-
                         {% for project in projects %}
                         {% if project.pinned %}
                         <div class="card">
-                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
-                                project.name }}</a>
+                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">
+                                {{ project.name }}
+                            </a>
                             <p class="card-desc">
                                 {{ project.description|default:"No description provided." }}
                             </p>
@@ -336,7 +150,6 @@
                                     {{ lang.name }}
                                 </span>
                                 {% endfor %}
-                                <!-- <span>⭐ 248</span> -->
                             </div>
                         </div>
                         {% endif %}
@@ -352,19 +165,13 @@
                         Previews
                     </h2>
 
-                    <div style="
-                border:1px solid var(--border);
-                border-radius:6px;
-                padding:16px;
-                text-align:center;
-                background:var(--bg-header);
-                ">
+                    <div>
                         {% for project in projects %}
                         {% if project.pinned %}
 
-                        <h4 style="text-align: left; margin-top: -5px; font-size: 14px; font-weight: 600;">{{
-                            project.name
-                            }}</h4>
+                        <h4 style="text-align: left; font-size: 14px; font-weight: 600;">
+                            {{ project.name }}
+                        </h4>
 
                         <div class="repo-grid">
                             {% for preview in project.images.all %}
@@ -374,7 +181,6 @@
                             {% empty %}
                             {% endfor %}
                         </div>
-                        <div class="divider"></div>
                         {% endif %}
 
                         {% empty %}
@@ -387,14 +193,24 @@
                         Trajectories
                     </h2>
 
-                    <div style="
-                border:1px solid var(--border);
-                border-radius:6px;
-                padding:16px;
-                background:var(--bg-header);
-                backdrop-filter: blur(10px);
-                ">
+                    <div class="trajectories">
+
                         {% for trajectory in trajectories %}
+                        <div class="actions-wrapper">
+
+                            <a onclick="document.getElementById('editTrajectoryDialog{{ trajectory.id }}').showModal()"
+                                class="icon-btn edit" title="Edit">
+                                ✎
+                            </a>
+
+                            <a href="{% url 'delete_trajectory' trajectory.id %}"
+                                onclick="return confirm('Remove {{ trajectory.job_position }}?');"
+                                class="icon-btn remove" title="Delete">
+                                &times;
+                            </a>
+
+                        </div>
+
 
                         <div style="display: flex; justify-content: space-between;">
                             <div>
@@ -404,30 +220,55 @@
                             </div>
                             <div>
                                 <i>
-                                    <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">{{
-                                        trajectory.date_start }} - {{ trajectory.date_end }}</p>
+                                    <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">
+                                        {{ trajectory.date_start }} - {{ trajectory.date_end }}
+                                    </p>
                                 </i>
                             </div>
                         </div>
                         <p style="color:var(--text-muted);font-size:14px;margin:0;">
                             {{ trajectory.description }}
                         </p>
-                        <div class="divider"></div>
+                        <br>
                         {% empty %}
                         <p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
                         {% endfor %}
+                        <button type="button" class="add-btn"
+                            onclick="document.getElementById('addTrajectoryDialog').showModal()">
+                            Add Experience
+                        </button>
                     </div>
 
                 </div>
 
                 <div class="tab-content" id="projects">
+                    <button type="button" class="button-container"
+                        onclick="document.getElementById('addProjectDialog').showModal()">
+                        Add Project
+                    </button>
                     <h2>Projects</h2>
                     <div class="repo-grid">
 
                         {% for project in projects %}
                         <div class="card">
-                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">{{
-                                project.name }}</a>
+                            <div class="actions-wrapper">
+
+                                <a onclick="document.getElementById('editProjectDialog{{ project.id }}').showModal()"
+                                    class="icon-btn edit" title="Edit">
+                                    ✎
+                                </a>
+
+                                <a href="{% url 'delete_project' project.id %}"
+                                    onclick="return confirm('Remove {{ project.name }}?');" class="icon-btn remove"
+                                    title="Delete">
+                                    &times;
+                                </a>
+
+                            </div>
+
+                            <a href="{{ project.url }}" target="_blank" rel="noopener noreferrer" class="card-link">
+                                {{ project.name }}
+                            </a>
                             <p class="card-desc">
                                 {{ project.description|default:"No description provided." }}
                             </p>
@@ -440,8 +281,6 @@
                                     {{ lang.name }}
                                 </span>
                                 {% endfor %}
-
-                                <!-- <span>⭐ 248</span> -->
                             </div>
                         </div>
 
@@ -459,6 +298,58 @@
     </form>
 
     <script src="{% static 'src/js/base.js' %}"></script>
+    <script src="{% static 'profile/src/js/js.js' %}"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+
+            const dialog = document.getElementById("addProjectDialog");
+            const search = document.getElementById("langSearch");
+            const options = document.querySelectorAll("#langOptions .option");
+            const selectedInputs = document.getElementById("selectedInputs");
+
+            let selected = [];
+
+            // SEARCH FILTER
+            search.addEventListener("input", function () {
+                const val = this.value.toLowerCase();
+
+                options.forEach(opt => {
+                    opt.style.display = opt.dataset.name.includes(val) ? "block" : "none";
+                });
+            });
+
+            // SELECT / DESELECT
+            options.forEach(opt => {
+                opt.addEventListener("click", function () {
+                    const id = this.dataset.id;
+
+                    if (selected.includes(id)) {
+                        selected = selected.filter(x => x !== id);
+                        this.classList.remove("selected");
+                    } else {
+                        selected.push(id);
+                        this.classList.add("selected");
+                    }
+
+                    renderInputs();
+                });
+            });
+
+            function renderInputs() {
+                selectedInputs.innerHTML = "";
+
+                selected.forEach(id => {
+                    const input = document.createElement("input");
+                    input.type = "hidden";
+                    input.name = "languages";
+                    input.value = id;
+                    selectedInputs.appendChild(input);
+                });
+            }
+
+        });
+
+    </script>
 
 </body>
 
@@ -535,21 +426,206 @@
 </dialog>
 
 <dialog id="languageDialog">
-    {% for lang in available_languages %}
     <form method="post" action="{% url 'add_language' %}">
         {% csrf_token %}
-        <input type="hidden" name="language_id" value="{{ lang.id }}">
 
-        <button type="submit" class="lang-item">
-            <span class="dot" style="background: {{ lang.color_code }};"></span>
-            {{ lang.name }}
+        {% if available_languages %}
+        <select name="language_ids" multiple class="lang-select">
+            {% for lang in available_languages %}
+            <option value="{{ lang.id }}">{{ lang.name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <p>All languages have been added.</p>
+        {% endif %}
+
+        <div class="dialog-actions">
+            <button type="button" onclick="document.getElementById('languageDialog').close()">
+                Cancel
+            </button>
+            <button type="submit" {% if not available_languages %}disabled{% endif %}>
+                Add selected
+            </button>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="addProjectDialog">
+
+    <form method="POST" action="{% url 'add_project' %}" enctype="multipart/form-data">
+        <h3>Add Project</h3>
+        <div class="pinned-row">
+            <label for="pinned">Pinned</label>
+            <input type="checkbox" id="pinned" name="pinned">
+        </div>
+
+        {% csrf_token %}
+
+        <input type="text" name="name" placeholder="Project name" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <input type="url" name="url" placeholder="Project URL">
+
+
+        <hr>
+
+        <div class="image-upload-section">
+            <label>Project Images</label>
+            <div id="imagePreviewContainer"></div>
+            <label for="projectImages" class="upload-btn">+ Add Images</label>
+            <input type="file" id="projectImages" name="images" accept="image/*" multiple style="display: none;"
+                onchange="previewImages(this)">
+            <div id="captionInputs"></div>
+        </div>
+
+        <hr>
+
+        <div class="multi-select">
+
+            <input type="text" id="langSearch" placeholder="Search languages...">
+
+            <div id="langOptions">
+                {% for lang in available_languages %}
+                <div class="option" data-id="{{ lang.id }}" data-name="{{ lang.name|lower }}">
+                    <span class="dot" style="background: {{ lang.color_code }};"></span>
+                    {{ lang.name }}
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div id="selectedInputs"></div>
+
+        <br>
+
+        <button type="submit">Save</button>
+        <button type="button" onclick="document.getElementById('addProjectDialog').close()">
+            Cancel
         </button>
     </form>
-    {% empty %}
-    <p>All languages have been added.</p>
-    {% endfor %}
+</dialog>
 
-    <button type="button" onclick="document.getElementById('languageDialog').close()">
-        Cancel
-    </button>
+
+{% for project in projects %}
+<dialog id="editProjectDialog{{ project.id }}">
+    <form method="POST" action="{% url 'edit_project' project.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Edit Project</h3>
+
+        <div class="pinned-row">
+            <label for="pinned_{{ project.id }}">Pinned</label>
+            <input type="checkbox" id="pinned_{{ project.id }}" name="pinned" {% if project.pinned %}checked{% endif %}>
+        </div>
+
+        <input type="text" name="name" value="{{ project.name }}" required>
+        <textarea name="description">{{ project.description }}</textarea>
+        <input type="url" name="url" value="{{ project.url }}">
+
+        <hr>
+
+        <!-- Existing images with delete option -->
+        <label>Current Images</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            {% for img in project.images.all %}
+            <div style="position: relative; display: inline-block;">
+                <img src="{{ img.image.url }}"
+                    style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px;">
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; margin-top: 4px;">
+                    <input type="checkbox" name="delete_image" value="{{ img.id }}">
+                    Remove
+                </label>
+            </div>
+            {% empty %}
+            <p style="font-size: 12px; color: var(--text-muted);">No images yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Upload new images -->
+        <label>Add New Images</label>
+        <div id="editPreviewContainer{{ project.id }}" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        <label for="editImages{{ project.id }}" class="upload-btn">+ Add Images</label>
+        <input type="file" id="editImages{{ project.id }}" name="images" accept="image/*" multiple
+            style="display: none;" onchange="previewEditImages(this, '{{ project.id }}')">
+        <div id="editCaptionInputs{{ project.id }}"></div>
+
+        <br>
+        <button type="submit">Save</button>
+        <button type="button"
+            onclick="document.getElementById('editProjectDialog{{ project.id }}').close()">Cancel</button>
+    </form>
+</dialog>
+
+
+{% empty %}
+<p style="font-size: 12px; color: var(--text-muted);">doesn't have any projects uploaded yet.
+</p>
+{% endfor %}
+
+
+
+{% for trajectory in trajectories %}
+
+<dialog id="editTrajectoryDialog{{ trajectory.id }}">
+    <form method="POST" action="{% url 'edit_trajectory' trajectory.id %}">
+        {% csrf_token %}
+        <h3>Edit Experience</h3>
+
+        <input type="text" name="job_position" value="{{ trajectory.job_position }}" required>
+        <textarea name="description">{{ trajectory.description }}</textarea>
+
+        <div style="display: flex; gap: 8px;">
+            <input type="date" name="date_start" value="{{ trajectory.date_start|date:'Y-m-d' }}" required>
+            <input type="date" name="date_end" value="{{ trajectory.date_end|date:'Y-m-d' }}">
+        </div>
+
+        <br>
+        <button type="submit">Save</button>
+        <button type="button"
+            onclick="document.getElementById('editTrajectoryDialog{{ trajectory.id }}').close()">Cancel</button>
+    </form>
+</dialog>
+
+<div style="display: flex; justify-content: space-between;">
+    <div>
+        <i>
+            <p style="font-size: 14px; font-weight: 500;">{{ trajectory.job_position }}</p>
+        </i>
+    </div>
+    <div style="display: flex; align-items: center; gap: 8px;">
+        <i>
+            <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">
+                {{ trajectory.date_start }} - {{ trajectory.date_end }}
+            </p>
+        </i>
+        <button type="button" onclick="document.getElementById('editTrajectoryDialog{{ trajectory.id }}').showModal()"
+            class="remove-icon">✎</button>
+        <a href="{% url 'delete_trajectory' trajectory.id %}"
+            onclick="return confirm('Remove {{ trajectory.job_position }}?');" class="remove-icon">&times;</a>
+    </div>
+</div>
+
+<p style="color:var(--text-muted);font-size:14px;margin:0;">{{ trajectory.description }}</p>
+<div class="divider"></div>
+
+{% empty %}
+<p style="font-size: 12px; color: var(--text-muted);">Doesn't have experience yet.</p>
+{% endfor %}
+
+<dialog id="addTrajectoryDialog">
+    <form method="POST" action="{% url 'add_trajectory' %}">
+        {% csrf_token %}
+        <h3>Add Experience</h3>
+
+        <input type="text" name="job_position" placeholder="Job position" required>
+        <textarea name="description" placeholder="Description"></textarea>
+
+        <div style="display: flex; gap: 8px;">
+            <input type="date" name="date_start" required>
+            <input type="date" name="date_end" placeholder="Leave blank if current">
+        </div>
+
+        <br>
+        <button type="submit">Save</button>
+        <button type="button" onclick="document.getElementById('addTrajectoryDialog').close()">Cancel</button>
+    </form>
 </dialog>
