@@ -81,8 +81,11 @@
                 <button class="dropdown-profile" onclick="window.location.href='{% url 'edit_profile' %}'">
                     Edit Profile
                 </button>
+                <button class="dropdown-profile" onclick="window.location.href='{% url 'security' %}'">
+                    Security
+                </button>
                 <form method="post" action="{% url 'account_logout' %}">
-                    {% csrf_token %}
+                    {% csrf_token %}        
                     <button type="submit" class="dropdown-signout">
                         Sign out
                         <svg width="13" height="13" viewBox="0 0 16 16" style="fill:currentColor">

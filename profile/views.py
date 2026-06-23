@@ -18,6 +18,8 @@ def profile(request):
 
         if not user:
             return HttpResponse("No superuser found.")
+        
+        
 
     profile, created = Profile.objects.get_or_create(user=user)
     frameworks = profile.frameworks.all()
