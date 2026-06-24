@@ -1,7 +1,8 @@
 from django.urls import path, include
 from . import views
 from django.shortcuts import redirect
-from .views import set_password, cancel_password_setup
+from .views import set_password, cancel_password_setup, change_password
+
 
 
 
@@ -12,4 +13,10 @@ urlpatterns = [
 
     path("account/set-password/", set_password, name="set_password"),
     path("account/cancel-password-setup/", cancel_password_setup, name="cancel_password_setup"),
+
+     path(
+        "settings/password/",
+        change_password,
+        name="change_password"
+    ),
 ]   

@@ -5,16 +5,19 @@ from .models import Profile, SocialMedia
 class ProfileForm(forms.ModelForm):
     class Meta:
         model = Profile
-        fields = ['profile','description']
+        fields = ['profile', 'description', 'github_token']
         widgets = {
             'description': forms.Textarea(attrs={
                 'rows': 5,
                 'class': 'text-area',
                 'placeholder': 'Fullstack Python developer...'
             }),
-
-             'profile': forms.FileInput(attrs={
+            'profile': forms.FileInput(attrs={
                 'class': 'profile-input'
+            }),
+            'github_token': forms.TextInput(attrs={
+                'class': 'text-input',
+                'placeholder': 'ghp_xxxxxxxxxxxx'
             })
         }
 

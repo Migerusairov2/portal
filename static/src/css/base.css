@@ -203,7 +203,7 @@ header {
 .notif-dot {
     position: absolute;
     top: 6px;
-    right: 8px;
+    right: 6px;
     width: 8px;
     height: 8px;
     background-color: var(--notif-dot);
@@ -215,7 +215,6 @@ header {
 [data-theme="light"] .sun-icon { display: none; }
 body:not([data-theme="light"]) .moon-icon { display: none; }
 
-/* ── connect button ── */
 .btn-connect {
     background-color: var(--btn-primary);
     color: #ffffff;

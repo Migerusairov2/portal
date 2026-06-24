@@ -46,6 +46,9 @@
         </div>
         {% endif %}
 
+        <!-- <button class="icon-btn" onclick="passwordDialog.showModal()">
+            
+        </button> -->
 
         <button class="icon-btn" id="themeBtn" title="Toggle Theme">
             <svg class="moon-icon" viewBox="0 0 16 16">
@@ -73,19 +76,19 @@
                 </svg>
             </button>
             <div class="dropdown-menu user-dropdown">
-                <label for="profile"
-                    style="font-size: 10px; margin: 5px; color: #777; font-weight: 700;">account settings</label>
+                <label for="profile" style="font-size: 10px; margin: 5px; color: #777; font-weight: 700;">account
+                    settings</label>
                 <button class="dropdown-profile" onclick="window.location.href='{% url 'profile' %}'">
                     Account Profile
                 </button>
                 <button class="dropdown-profile" onclick="window.location.href='{% url 'edit_profile' %}'">
                     Edit Profile
                 </button>
-                <button class="dropdown-profile" onclick="window.location.href='{% url 'security' %}'">
-                    Security
+                <button class="dropdown-profile" onclick="window.location.href='{% url 'change_password' %}'">
+                    Change password
                 </button>
                 <form method="post" action="{% url 'account_logout' %}">
-                    {% csrf_token %}        
+                    {% csrf_token %}
                     <button type="submit" class="dropdown-signout">
                         Sign out
                         <svg width="13" height="13" viewBox="0 0 16 16" style="fill:currentColor">

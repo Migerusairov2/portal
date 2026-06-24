@@ -1,0 +1,300 @@
+<dialog id="socialDialog">
+
+    <form method="POST" action="{% url 'add_social_media' %}" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        <h3>Add Social Media</h3>
+
+
+        <label>
+            Platform Name
+        </label>
+
+        {{ social_form.name }}
+
+
+        <label>
+            URL
+        </label>
+
+        {{ social_form.url }}
+
+
+        <!-- <label>
+            Logo (maintenance - make AI generated or automation)
+        </label>
+
+        {{ social_form.logo }} -->
+        <div class="dialog-footer">
+            <button type="submit">
+                Add
+            </button>
+            <button type="button" onclick="document.getElementById('socialDialog').close()">
+                Cancel
+            </button>
+        </div>
+    </form>
+
+</dialog>
+
+<dialog id="frameworkDialog">
+
+    <form method="post" action="{% url 'add_framework' %}">
+
+        {% csrf_token %}
+
+        <h3>Add Frameworks</h3>
+
+
+        <div class="multi-select">
+
+            <input type="text" id="frameworkSearch" placeholder="Search frameworks..." autocomplete="off">
+
+
+            <div id="selectedFrameworks" class="selected-items"></div>
+
+
+            <div id="frameworkOptions" class="options">
+
+                {% for framework in available_frameworks %}
+
+                <div class="option" data-id="{{ framework.id }}" data-name="{{ framework.name }}">
+
+                    {% if framework.logo %}
+                    <img src="{{ framework.logo.url }}">
+                    {% endif %}
+
+                    {{ framework.name }}
+
+                </div>
+
+                {% endfor %}
+
+            </div>
+
+
+            <div id="hiddenInputs"></div>
+
+        </div>
+
+
+        <div class="dialog-footer">
+
+            <button type="button" onclick="frameworkDialog.close()">
+                Cancel
+            </button>
+
+
+            <button type="submit">
+                Add Selected
+            </button>
+
+        </div>
+
+
+    </form>
+
+</dialog>
+
+<dialog id="languageDialog">
+    <h3>
+        Add Languages
+    </h3>
+    <form method="post" action="{% url 'add_language' %}">
+        {% csrf_token %}
+
+        {% if available_languages %}
+        <select name="language_ids" multiple class="lang-select">
+            {% for lang in available_languages %}
+            <option value="{{ lang.id }}">{{ lang.name }}</option>
+            {% endfor %}
+        </select>
+        {% else %}
+        <p>All languages have been added.</p>
+        {% endif %}
+
+        <div class="dialog-footer">
+
+            <button type="button" onclick="document.getElementById('languageDialog').close()">
+                Cancel
+            </button>
+            <button type="submit" {% if not available_languages %}disabled{% endif %}>
+                Add selected
+            </button>
+        </div>
+    </form>
+</dialog>
+
+<dialog id="addProjectDialog">
+
+    <form method="POST" action="{% url 'add_project' %}" enctype="multipart/form-data">
+        <h3>Add Project</h3>
+        <div class="pinned-row">
+            <label for="pinned">Pinned</label>
+            <input type="checkbox" id="pinned" name="pinned">
+        </div>
+
+        {% csrf_token %}
+
+        <input type="text" name="name" placeholder="Project name" required>
+        <textarea name="description" placeholder="Description"></textarea>
+        <input type="url" name="url" placeholder="Project URL">
+
+
+        <hr>
+
+        <div class="image-upload-section">
+            <label>Project Images</label>
+            <div id="imagePreviewContainer"></div>
+            <label for="projectImages" class="upload-btn">+ Add Images</label>
+            <input type="file" id="projectImages" name="images" accept="image/*" multiple style="display: none;"
+                onchange="previewImages(this)">
+            <div id="captionInputs"></div>
+        </div>
+
+        <hr>
+
+        <div class="multi-select">
+
+            <input type="text" id="langSearch" placeholder="Search languages...">
+
+            <div id="langOptions">
+                {% for lang in available_languages %}
+                <div class="option" data-id="{{ lang.id }}" data-name="{{ lang.name|lower }}">
+                    <span class="dot" style="background: {{ lang.color_code }};"></span>
+                    {{ lang.name }}
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <div id="selectedInputs"></div>
+
+        <div class="dialog-footer">
+
+            <button type="submit">Save</button>
+            <button type="button" onclick="document.getElementById('addProjectDialog').close()">
+                Cancel
+            </button>
+        </div>
+    </form>
+</dialog>
+
+
+{% for project in projects %}
+<dialog id="editProjectDialog{{ project.id }}">
+    <form method="POST" action="{% url 'edit_project' project.id %}" enctype="multipart/form-data">
+        {% csrf_token %}
+        <h3>Edit Project</h3>
+
+        <div class="pinned-row">
+            <label for="pinned_{{ project.id }}">Pinned</label>
+            <input type="checkbox" id="pinned_{{ project.id }}" name="pinned" {% if project.pinned %}checked{% endif %}>
+        </div>
+
+        <input type="text" name="name" value="{{ project.name }}" required>
+        <textarea name="description">{{ project.description }}</textarea>
+        <input type="url" name="url" value="{{ project.url }}">
+
+        <hr>
+        
+        <label>Current Images</label>
+        <div style="display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 10px;">
+            {% for img in project.images.all %}
+            <div style="position: relative; display: inline-block;">
+                <img src="{{ img.image.url }}"
+                    style="width: 70px; height: 70px; object-fit: cover; border-radius: 6px;">
+                <label style="display: flex; align-items: center; gap: 4px; font-size: 11px; margin-top: 4px;">
+                    <input type="checkbox" name="delete_image" value="{{ img.id }}">
+                    Remove
+                </label>
+            </div>
+            {% empty %}
+            <p style="font-size: 12px; color: var(--text-muted);">No images yet.</p>
+            {% endfor %}
+        </div>
+
+        <!-- Upload new images -->
+        <label>Add New Images</label>
+        <div id="editPreviewContainer{{ project.id }}" style="display: flex; flex-wrap: wrap; gap: 8px;"></div>
+        <label for="editImages{{ project.id }}" class="upload-btn">+ Add Images</label>
+        <input type="file" id="editImages{{ project.id }}" name="images" accept="image/*" multiple
+            style="display: none;" onchange="previewEditImages(this, '{{ project.id }}')">
+        <div id="editCaptionInputs{{ project.id }}"></div>
+
+        <div class="dialog-footer">
+            <button type="submit">Save</button>
+            <button type="button"
+                onclick="document.getElementById('editProjectDialog{{ project.id }}').close()">Cancel</button>
+        </div>
+    </form>
+</dialog>
+
+
+{% empty %}
+{% endfor %}
+
+
+
+{% for trajectory in trajectories %}
+
+<dialog id="editTrajectoryDialog{{ trajectory.id }}">
+    <form method="POST" action="{% url 'edit_trajectory' trajectory.id %}">
+        {% csrf_token %}
+        <h3>Edit Experience</h3>
+
+        <input type="text" name="job_position" value="{{ trajectory.job_position }}" required>
+        <textarea name="description">{{ trajectory.description }}</textarea>
+
+        <div style="display: flex; gap: 8px;">
+            <input type="date" name="date_start" value="{{ trajectory.date_start|date:'Y-m-d' }}" required>
+            <input type="date" name="date_end" value="{{ trajectory.date_end|date:'Y-m-d' }}">
+        </div>
+
+        <div class="dialog-footer">
+            <button type="submit">Save</button>
+            <button type="button" onclick="document.getElementById('editTrajectoryDialog{{ trajectory.id }}').close()">Cancel</button>
+        </div>
+    </form>
+</dialog>
+
+{% empty %}
+{% endfor %}
+
+<dialog id="addTrajectoryDialog">
+    <form method="POST" action="{% url 'add_trajectory' %}">
+        {% csrf_token %}
+        <h3>Add Experience</h3>
+
+        <input type="text" name="job_position" placeholder="Job position" required>
+        <textarea name="description" placeholder="Description"></textarea>
+
+        <table style="width: 100%;">
+
+            <body>
+                <tr style="text-align: left; font-size: 12px;">
+                    <th>from</th>
+                    <th style="display: flex; flex-direction: row; justify-content: space-between;">
+                        <div>to</div>
+                        <!-- <div>current </div> -->
+                    </th>
+                </tr>
+                <tr>
+                    <td>
+                        <input type="date" name="date_start" required>
+                    </td>
+                    <td>
+                        <input type="date" name="date_end" placeholder="Leave blank if current">
+                    </td>
+                </tr>
+            </body>
+        </table>
+
+        <div class="dialog-footer">
+            <button type="submit">Save</button>
+            <button type="button" onclick="document.getElementById('addTrajectoryDialog').close()">Cancel</button>
+        </div>
+    </form>
+</dialog>
