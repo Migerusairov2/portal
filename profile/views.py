@@ -1,22 +1,37 @@
 from django.http import HttpResponse
 from django.contrib.auth.models import User 
 from .models import Profile, Project, Trajectory, SocialMedia, GithubRepository, GithubCommit, Framework, Language, ProjectImage
+from .forms import ProfileForm, SocialMediaForm
 from django.db.models import Prefetch
 from django.core.management import call_command
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-from .forms import ProfileForm, SocialMediaForm
+from django.contrib.auth import authenticate
+from django.views.decorators.http import require_POST
+import json
 
 
 def security(request):
-    
-
     context = {
 
     }
 
     return render(request, 'security.html', context)
+
+@require_POST
+def verify_password(request):
+    data = json.loads(request.body)
+    password = data.get("password")
+
+    user = authenticate(
+        username=request.user.username,
+        password=password
+    )
+
+    return JsonResponse({
+        "valid": user is not None
+    })
 
 def profile(request):
 
@@ -46,7 +61,7 @@ def profile(request):
     
 
     repos = GithubRepository.objects.filter(user=user).order_by('-stars')
-    print('repos', repos)
+    # print('repos', repos)
     repos_by_date = GithubRepository.objects.filter(user=user).order_by("-pushed_at").prefetch_related(
         Prefetch(
             "commits",
@@ -82,7 +97,6 @@ def sync_github(request):
     user = request.user
     profile, created = Profile.objects.get_or_create(user=user)
     if profile.github_token:
-        print('True')
         call_command(
             'fetch_github_repos',
             user_id=request.user.id
@@ -90,7 +104,6 @@ def sync_github(request):
 
         return JsonResponse({"success": True})
     else:
-        print('False')
         return JsonResponse({"success": False})
     
 
@@ -113,6 +126,8 @@ def edit_profile(request):
     )
 
     projects = Project.objects.filter(user=user).prefetch_related('languages_used')
+    repos = GithubRepository.objects.filter(user=user).order_by('-stars')
+
 
     social_form = SocialMediaForm()
 
@@ -136,6 +151,7 @@ def edit_profile(request):
         'languages': languages,
         'available_languages': available_languages,
         'projects': projects,
+        'repos': repos,
         'is_edit': True,
     })
     

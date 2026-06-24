@@ -3,12 +3,12 @@ from .models import Profile, Language, Project, Framework, Trajectory, SocialMed
 
 @admin.register(SocialMedia)
 class SocialMediaAdmin(admin.ModelAdmin):
-    list_display = ('user','name', 'url', 'logo')
+    list_display = ('name', 'url', 'logo', 'user')
     list_filter = ('user',)
 
 @admin.register(Trajectory)
 class TrajectoryAdmin(admin.ModelAdmin):
-    list_display = ('user','job_position', 'date_start', 'date_end', 'description')
+    list_display = ('job_position', 'date_start', 'date_end', 'description', 'user')
     list_filter = ('user',)
 
 
@@ -22,17 +22,17 @@ class LanguageAdmin(admin.ModelAdmin):
 
 @admin.register(Project)
 class ProjectAdmin(admin.ModelAdmin):
-    list_display = ('user', 'name', 'description', 'url' , 'pinned')
+    list_display = ('name', 'description', 'url' , 'pinned', 'user')
     list_filter = ('pinned', 'user')
     filter_horizontal = ('languages_used',)
 
 @admin.register(ProjectImage)
 class ProjectImageAdmin(admin.ModelAdmin):
-    list_display = ('project', 'image', 'caption')
+    list_display = ('image', 'caption', 'project')
  
 @admin.register(Profile)
 class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'description', 'profile', 'github_token']
+    list_display = ['user', 'profile', 'description', 'github_token']
     filter_horizontal = ('languages', 'frameworks',)
 
 @admin.register(GithubRepository)
@@ -42,10 +42,16 @@ class GithubRepositoryAdmin(admin.ModelAdmin):
         'name',
         'owner',
         'stars',
-        'language'
+        'language',
+        'user'
+
     )
+
+    list_filter = ('user',)
+
 
     search_fields = (
         'name',
         'owner'
     )
+

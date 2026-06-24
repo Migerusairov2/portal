@@ -502,7 +502,7 @@ dialog h3 {
     margin-top: 0;
 }
 
-dialog p{
+dialog p {
     font-size: 12px;
 }
 
@@ -524,7 +524,7 @@ dialog input[type="text"] {
     color: white;
 }
 
-[data-theme="light"] dialog input[type="url"]{
+[data-theme="light"] dialog input[type="url"] {
     background-color: white;
     color: #0d1117;
 }
@@ -550,14 +550,14 @@ dialog button[type="button"] {
     color: #24292f;
     border: 1px solid var(--border);
 
-    transition: 
+    transition:
         background-color .15s ease,
         border-color .15s ease;
 }
 
 dialog button[type="button"]:hover {
     background: #eaeef2;
-}   
+}
 
 hr {
     border: none;
@@ -636,6 +636,32 @@ textarea {
     scrollbar-width: thin;
     scrollbar-color: #888 transparent;
     margin-top: 10px;
+}
+
+#github-token input {
+    width: 100%;
+    padding: 10px 12px;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #0d1117;
+    transition: border-color 0.3s ease;
+}
+
+#github-token input:focus {
+    border-color: white;
+    outline: none;
+    box-shadow: 0 0 5px rgba(3, 102, 214, 0.3);
+}
+
+[data-theme="light"] #github-token input {
+    color: #000;
+    background-color: white;
+}
+
+[data-theme="light"] #github-token input:focus {
+    border-color: #999;
 }
 
 [data-theme="light"] textarea {
@@ -849,7 +875,7 @@ input[type="date"] {
     transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
 
-[data-theme="light"] input[type="date"]{
+[data-theme="light"] input[type="date"] {
     color: #0d1117;
     background-color: white;
 }
@@ -928,9 +954,9 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
     transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-[data-theme="light"] .lang-select{
+[data-theme="light"] .lang-select {
     color: black;
-        background-color: white;
+    background-color: white;
 
 }
 
@@ -1213,4 +1239,56 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
 dialog:not([open]) {
     display: none;
+}
+
+.lock {
+    margin-bottom: 10px;
+}
+
+.lock .unlock-password{
+    padding: 6px 8px;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #0d1117;
+    transition: border-color 0.3s ease;
+}
+
+.lock .unlock-password-success{
+    padding: 6px 8px;
+    color: white;
+    border: 1px solid #10b981;
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #0d1117;
+    transition: border-color 0.3s ease;
+}
+
+.lock button[type="button"]{
+    padding: 6px 8px;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: #0d1117;
+    cursor: pointer;
+}
+
+.lock button[type="button"]:hover{
+    padding: 6px 8px;
+    color: white;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: var(--border);
+    cursor: pointer;
+    transition: 0.3s ease;
+
+}
+
+#github-token input:focus {
+    border-color: white;
+    outline: none;
+    box-shadow: 0 0 5px rgba(3, 102, 214, 0.3);
 }
