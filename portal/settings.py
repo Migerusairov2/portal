@@ -53,6 +53,7 @@ INSTALLED_APPS = [
     # Providers
     'allauth.socialaccount.providers.google',
     "allauth.socialaccount.providers.github",
+    
 
     #Apps added
     'hero',
@@ -60,7 +61,6 @@ INSTALLED_APPS = [
     'training',
     'pdf_reports',
     'users',
-    'security'
     ]
 
 SITE_ID = 1
@@ -80,7 +80,7 @@ MIDDLEWARE = [
     'allauth.account.middleware.AccountMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    
+
     'users.middleware.RequirePasswordSetupMiddleware',
 
 ]
@@ -170,7 +170,8 @@ EMAIL_HOST_USER = 'miguel2001silos@gmail.com'
 EMAIL_HOST_PASSWORD = 'lycv khdc ekqa jhgi'   # use env vars in production
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
-LOGIN_REDIRECT_URL = 'profile' #redirection after login
+# ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
+LOGIN_REDIRECT_URL = 'profile'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGIN_URL = 'account_login'
 ACCOUNT_EMAIL_REQUIRED = True

@@ -9,6 +9,15 @@ from django.http import JsonResponse
 from .forms import ProfileForm, SocialMediaForm
 
 
+def security(request):
+    
+
+    context = {
+
+    }
+
+    return render(request, 'security.html', context)
+
 def profile(request):
 
     if request.user.is_authenticated:
@@ -129,6 +138,7 @@ def edit_profile(request):
         'projects': projects,
         'is_edit': True,
     })
+    
 
 def add_social_media(request):
 
@@ -264,7 +274,7 @@ def add_trajectory(request):
             job_position=request.POST.get("job_position"),
             description=request.POST.get("description"),
             date_start=request.POST.get("date_start"),
-            date_end=request.POST.get("date_end"),
+            date_end = request.POST.get("date_end") or None,
         )
     return redirect("edit_profile")
 

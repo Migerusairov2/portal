@@ -28,7 +28,7 @@ class Trajectory(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='trajectories')
     job_position = models.CharField(max_length=50)
     date_start= models.DateField(blank=True)
-    date_end= models.DateField(blank=True)
+    date_end = models.DateField(null=True, blank=True)
     description = models.TextField(max_length=500, blank=True)
 
     def __str__(self):

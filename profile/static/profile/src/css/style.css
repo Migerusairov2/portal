@@ -689,10 +689,6 @@ textarea {
 }
 
 .btn-editprofile {
-    position: absolute;
-    left: 50%;
-    bottom: 10px;
-    transform: translateX(-50%);
     white-space: nowrap;
     color: white;
     background: var(--bg-header);
@@ -1085,3 +1081,136 @@ input[type="date"]::-webkit-calendar-picker-indicator:hover {
 
     font-weight: bold;
 } */
+
+#editProfileDialog {
+    border: none;
+    border-radius: 12px;
+    padding: 0;
+    width: 90%;
+    max-width: 360px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+}
+
+#editProfileDialog::backdrop {
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(2px);
+}
+
+#editProfileDialog .dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #e5e7eb;
+}
+
+#editProfileDialog .dialog-header h2 {
+    margin: 0;
+    font-size: 1.125rem;
+    font-weight: 600;
+}
+
+#editProfileDialog .btn-close {
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #6b7280;
+    line-height: 1;
+}
+
+#editProfileDialog .dialog-form {
+    padding: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+}
+
+#editProfileDialog .avatar-preview-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+}
+
+#editProfileDialog .avatar-preview {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: #f3f4f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #e5e7eb;
+}
+
+#editProfileDialog .avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#editProfileDialog .avatar-placeholder {
+    color: #9ca3af;
+    width: 56px;
+    height: 56px;
+}
+
+#editProfileDialog .avatar-placeholder svg {
+    width: 100%;
+    height: 100%;
+}
+
+#editProfileDialog .btn-upload {
+    display: inline-block;
+    padding: 0.4rem 1rem;
+    border-radius: 6px;
+    border: 1px solid #d1d5db;
+    background: white;
+    font-size: 0.875rem;
+    cursor: pointer;
+    color: #374151;
+    transition: background 0.15s;
+}
+
+#editProfileDialog .btn-upload:hover {
+    background: #f9fafb;
+}
+
+#editProfileDialog .btn-upload input[type="file"] {
+    display: none;
+}
+
+#editProfileDialog .dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    width: 100%;
+}
+
+#editProfileDialog .btn-cancel {
+    padding: 0.5rem 1rem;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    background: white;
+    cursor: pointer;
+}
+
+#editProfileDialog .btn-save {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 6px;
+    background: #4f46e5;
+    color: white;
+    cursor: pointer;
+}
+
+#editProfileDialog .btn-save:hover {
+    background: #4338ca;
+}
+
+dialog:not([open]) {
+    display: none;
+}

@@ -4,9 +4,12 @@ from profile.api.api import github_repos_api
 
 urlpatterns = [
     path('profile/', views.profile, name='profile'),
+    path('profile/edit/', views.edit_profile, name='edit_profile'),
+    # path('security/', views.security, name='security'),
+
     path("api/github-repos/", github_repos_api, name="github_repos_api"),
     path("api/sync-github/", views.sync_github, name="sync_github"),
-    path('profile/edit/', views.edit_profile, name='edit_profile'),
+
 
     path('social-media/add/', views.add_social_media, name='add_social_media'),
     path('social-media/delete/<int:id>/', views.delete_social_media, name='delete_social_media'),
