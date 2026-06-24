@@ -17,7 +17,7 @@ class ProfileForm(forms.ModelForm):
             }),
             'github_token': forms.TextInput(attrs={
                 'class': 'text-input',
-                'placeholder': 'ghp_xxxxxxxxxxxx'
+                'placeholder': 'github_pat_xxxxxxxxxxxx'
             })
         }
 

@@ -120,7 +120,7 @@
                 <div class="tabs">
                     <div class="tab active" data-tab="overview">Overview</div>
                     <div class="tab" data-tab="projects">Projects</div>
-                    <div class="tab" data-tab="github-token">Github Token</div>
+                    <div class="tab" data-tab="github">Github Token</div>
                 </div>
 
                 <div class="tab-content active" id="overview">
@@ -286,8 +286,23 @@
                         {% endfor %}
                     </div>
                 </div>
-                <div class="tab-content" id="github-token">
-                    {{ form.github_token }}
+
+
+                <div class="tab-content" id="github">
+                    <div class="lock">
+                        <label for="unlock_password">Password</label>
+                        <input type="password" id="unlock_password" class="unlock-password" placeholder="Your password">
+                        <button type="button" id="unlock-btn" class="btn btn-primary">
+                            <span id="unlock-text">Unlock</span>
+                            <span id="unlock-spinner" class="spinner-border spinner-border-sm d-none" role="status"
+                                aria-hidden="true"></span>
+                        </button>
+
+                    </div>
+
+                    <div id="github-token">
+                        {{ form.github_token }}
+                    </div>
                 </div>
             </main>
         </div>
@@ -449,6 +464,50 @@
         //     });
 
         // });
+
+        document.addEventListener('DOMContentLoaded', function () {
+            const tokenField = document.querySelector('#github-token input');
+
+            tokenField.readOnly = true;
+            tokenField.style.display = 'none';
+
+            document.getElementById('unlock-btn').addEventListener('click', async () => {
+
+                const unlock_password = document.getElementById('unlock_password')
+                const password = unlock_password.value;
+
+                if (password) {
+
+
+                    const response = await fetch('/verify-password/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({ password })
+                    });
+
+                    const data = await response.json();
+
+                    if (data.valid) {
+                        unlock_password.classList.remove('unlock-password');
+                        unlock_password.classList.add('unlock-password-success');
+
+                        tokenField.style.display = 'block';
+
+                        // unlockBtn.classList.add('hide');
+                        tokenField.readOnly = false;
+                    } else {
+                        alert('Incorrect password');
+                    }
+                }
+
+                else {
+                    alert('Password required!');
+                }
+            });
+        });
 
     </script>
 

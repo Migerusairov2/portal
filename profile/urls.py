@@ -28,6 +28,8 @@ urlpatterns = [
     path("edit-trajectory/<int:trajectory_id>/", views.edit_trajectory, name="edit_trajectory"),
     path("delete-trajectory/<int:trajectory_id>/", views.delete_trajectory, name="delete_trajectory"),
 
+    path('verify-password/', views.verify_password, name='verify_password'),
+
 ]
 
 
