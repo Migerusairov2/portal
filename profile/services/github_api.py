@@ -38,7 +38,7 @@ def get_headers(user):
 def fetch_personal_repositories(user):
 
     headers = get_headers(user)
-
+    print('headers', headers)
     url = "https://api.github.com/user/repos"
 
     params = {
@@ -54,6 +54,8 @@ def fetch_personal_repositories(user):
         timeout=10
     )
 
+    print('response', response)
+
     return response.json()
 
 GITHUB_API = "https://api.github.com"
@@ -61,9 +63,9 @@ GITHUB_API = "https://api.github.com"
 def fetch_commits(user, owner, repo):
     headers = get_headers(user)
     url = f"{GITHUB_API}/repos/{owner}/{repo}/commits?per_page=100"
-    r = requests.get(url, headers=headers, timeout=30)
+    response = requests.get(url, headers=headers, timeout=30)
 
-    if r.status_code != 200:
+    if response.status_code != 200:
         return []
 
-    return r.json()
+    return response.json()

@@ -1255,6 +1255,16 @@ dialog:not([open]) {
     transition: border-color 0.3s ease;
 }
 
+[data-theme="light"]  .lock .unlock-password{
+    padding: 6px 8px;
+    color: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: white;
+    transition: border-color 0.3s ease;
+}
+
 .lock .unlock-password-success{
     padding: 6px 8px;
     color: white;
@@ -1264,6 +1274,12 @@ dialog:not([open]) {
     background-color: #0d1117;
     transition: border-color 0.3s ease;
 }
+
+[data-theme="light"] .lock .unlock-password-success{
+        background-color: white;
+        color: #0d1117;
+}
+
 
 .lock button[type="button"]{
     padding: 6px 8px;
@@ -1281,10 +1297,9 @@ dialog:not([open]) {
     border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 14px;
-    background-color: var(--border);
+    background-color: #000;
     cursor: pointer;
     transition: 0.3s ease;
-
 }
 
 #github-token input:focus {
