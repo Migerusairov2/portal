@@ -104,7 +104,7 @@ def pdf_report(request):
     p.setFont("Helvetica", font_size)
     p.drawCentredString(width / 2, y, contact_info)
 
-    y -= 20
+    y -= 15
 
     p.line(
         LEFT_MARGIN,
@@ -113,7 +113,7 @@ def pdf_report(request):
         y
     )
 
-    y -= 30
+    y -= 20
 
     # ==========================
     # SUMMARY
@@ -126,7 +126,7 @@ def pdf_report(request):
         "PROFESSIONAL SUMMARY"
     )
 
-    y -= 20
+    y -= 15
 
     p.setFont("Helvetica", font_size)
 
@@ -162,7 +162,7 @@ def pdf_report(request):
         "EXPERIENCES"
     )
 
-    y -= 20
+    y -= 15
 
     for trajectory in trajectories:
 
@@ -179,17 +179,16 @@ def pdf_report(request):
             title
         )
 
-        y -= 15
 
         dates = (
-            f"{trajectory.date_start or ''}"
-            f" - "
-            f"{trajectory.date_end or ''}"
-        )
+                f"{trajectory.date_start.strftime('%b %d, %Y') if trajectory.date_start else ''}"
+                f" - "
+                f"{trajectory.date_end.strftime('%b %d, %Y') if trajectory.date_end else 'Current'}"
+            )
 
         p.setFont("Helvetica-Oblique", font_size)
         p.drawString(
-            LEFT_MARGIN + 10,
+            (width/2) + 175,
             y,
             dates
         )
