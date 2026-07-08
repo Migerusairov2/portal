@@ -39,6 +39,23 @@ def fetch_personal_repositories(user):
 
     headers = get_headers(user)
     print('headers', headers)
+    
+superuser = User.objects.filter(is_superuser=True).first()
+profile, created = Profile.objects.get_or_create(user=superuser)
+
+TOKEN = f'{profile.github_token}'
+
+if not TOKEN:
+    raise ValueError("GITHUB_TOKEN is not set in .env file or Github Token is expired!")
+
+headers = {
+    "Authorization": f"Bearer {TOKEN}",
+    "Accept": "application/vnd.github+json"
+}
+
+
+def fetch_personal_repositories():
+
     url = "https://api.github.com/user/repos"
 
     params = {
@@ -62,6 +79,7 @@ GITHUB_API = "https://api.github.com"
 
 def fetch_commits(user, owner, repo):
     headers = get_headers(user)
+def fetch_commits(owner, repo):
     url = f"{GITHUB_API}/repos/{owner}/{repo}/commits?per_page=100"
     response = requests.get(url, headers=headers, timeout=30)
 
