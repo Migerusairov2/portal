@@ -26,16 +26,17 @@
         <div class="container">
             <aside class="sidebar">
                 <div class="avatar-container">
-                    <div style="text-align: center;">
-                        {% if profile.profile %}
-                        <img src="{{ profile.profile.url }}" class="sidebar-img">
-                        {% endif %}
+                    <img id="profile-preview" src="{% if profile.profile %}{{ profile.profile.url }}{% endif %}"
+                        class="sidebar-img">
+
+                    <div class="avatar-actions">
                         <label for="id_profile" class="btn-editprofile">
-                            Edit Profile
+                            Avatar
                         </label>
+
+                        {{ form.profile }}
                     </div>
                 </div>
-                {{ form.profile }}
                 <div class="profile">
                     <h1>{{ profile.user.username }}</h1>
                     <p>{{ profile.user.email}}</p>
@@ -217,7 +218,12 @@
                             <div>
                                 <i>
                                     <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">
-                                        {{ trajectory.date_start }} - {{ trajectory.date_end }}
+                                        {{ trajectory.date_start }} -
+                                        {% if trajectory.date_end %}
+                                        {{ trajectory.date_end }}
+                                        {% else %}
+                                        Current
+                                        {% endif %}
                                     </p>
                                 </i>
                             </div>
@@ -290,14 +296,23 @@
 
                 <div class="tab-content" id="github">
                     <div class="lock">
+                        <i><span style="color: #777; font-size: 14px;">unlock and paste your github token and update repositories to fetch your github public repositories.</span></i>
+                        <a href="https://github.com/settings/personal-access-tokens" target="_blank" style="text-decoration: none; font-size: 12px;">Create Github Token</a>
+
+                        <br>
+                        <br>
                         <label for="unlock_password">Password</label>
                         <input type="password" id="unlock_password" class="unlock-password" placeholder="Your password">
-                        <button type="button" id="unlock-btn" class="btn btn-primary">
-                            <span id="unlock-text">Unlock</span>
-                            <span id="unlock-spinner" class="spinner-border spinner-border-sm d-none" role="status"
-                                aria-hidden="true"></span>
-                        </button>
+                        <button type="button" id="unlock-btn">Unlock<span class="spinner"></span></button>
+                    </div>
 
+                    <div class="lock-success">
+                        <span>verified</span>
+
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <polyline class="checkmark" points="20 6 9 17 4 12" style="color: #238636;" />
+                        </svg>
                     </div>
 
                     <div id="github-token">
@@ -309,7 +324,7 @@
     </form>
 
     <script src="{% static 'src/js/base.js' %}"></script>
-    <script src="{% static 'profile/src/js/js.js' %}"></script>
+    <script src="{% static 'profile/src/js/edit_profile.js' %}"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
 
@@ -359,151 +374,62 @@
 
         });
 
-        // document.addEventListener("DOMContentLoaded", () => {
-
-        //     const frameworkDialog = document.getElementById("frameworkDialog");
-
-        //     if (!frameworkDialog) return;
-
-        //     const searchInput = frameworkDialog.querySelector("#frameworkSearch");
-        //     const options = frameworkDialog.querySelectorAll(".option");
-        //     const selectedContainer = frameworkDialog.querySelector("#selectedFrameworks");
-        //     const hiddenInputsContainer = frameworkDialog.querySelector("#hiddenInputs");
-
-        //     const selectedFrameworks = new Map();
-
-
-        //     function renderSelected() {
-
-        //         selectedContainer.innerHTML = "";
-        //         hiddenInputsContainer.innerHTML = "";
-
-        //         selectedFrameworks.forEach((name, id) => {
-
-        //             const tag = document.createElement("div");
-        //             tag.className = "tag";
-
-        //             tag.innerHTML = `
-        //         ${name}
-        //         <span data-id="${id}">&times;</span>
-        //     `;
-
-        //             selectedContainer.appendChild(tag);
-
-        //             const hiddenInput = document.createElement("input");
-        //             hiddenInput.type = "hidden";
-        //             hiddenInput.name = "framework_ids";
-        //             hiddenInput.value = id;
-
-        //             hiddenInputsContainer.appendChild(hiddenInput);
-        //         });
-
-
-        //         selectedContainer.querySelectorAll("span[data-id]").forEach(btn => {
-
-        //             btn.addEventListener("click", () => {
-
-        //                 selectedFrameworks.delete(btn.dataset.id);
-
-        //                 renderSelected();
-
-        //             });
-
-        //         });
-
-        //     }
-
-
-        //     options.forEach(option => {
-
-        //         option.addEventListener("click", () => {
-
-        //             const id = option.dataset.id;
-        //             const name = option.dataset.name;
-
-        //             if (!selectedFrameworks.has(id)) {
-
-        //                 selectedFrameworks.set(id, name);
-
-        //                 renderSelected();
-
-        //             }
-
-        //         });
-
-        //     });
-
-
-        //     searchInput.addEventListener("input", () => {
-
-        //         const searchTerm = searchInput.value.trim().toLowerCase();
-
-        //         options.forEach(option => {
-
-        //             const frameworkName =
-        //                 option.dataset.name.toLowerCase();
-
-        //             option.style.display =
-        //                 frameworkName.includes(searchTerm)
-        //                     ? "flex"
-        //                     : "none";
-
-        //         });
-
-        //     });
-
-
-        //     frameworkDialog.addEventListener("close", () => {
-
-        //         searchInput.value = "";
-
-        //         options.forEach(option => {
-        //             option.style.display = "flex";
-        //         });
-
-        //     });
-
-        // });
 
         document.addEventListener('DOMContentLoaded', function () {
             const tokenField = document.querySelector('#github-token input');
+            const unlock_btn = document.getElementById('unlock-btn');
+            const lock = document.querySelector('.lock');
+            const lock_success = document.querySelector('.lock-success');
 
             tokenField.readOnly = true;
             tokenField.style.display = 'none';
 
-            document.getElementById('unlock-btn').addEventListener('click', async () => {
+            // Inject spinner into the button
+            const spinner = document.createElement('span');
+            spinner.classList.add('spinner');
+            unlock_btn.appendChild(spinner);
 
-                const unlock_password = document.getElementById('unlock_password')
+            unlock_btn.addEventListener('click', async () => {
+                const unlock_password = document.getElementById('unlock_password');
                 const password = unlock_password.value;
 
                 if (password) {
+                    spinner.classList.add('active');
+                    unlock_btn.disabled = true;
 
+                    try {
+                        const response = await fetch('/verify-password/', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'X-CSRFToken': '{{ csrf_token }}'
+                            },
+                            body: JSON.stringify({ password })
+                        });
 
-                    const response = await fetch('/verify-password/', {
-                        method: 'POST',
-                        headers: {
-                            'Content-Type': 'application/json',
-                            'X-CSRFToken': '{{ csrf_token }}'
-                        },
-                        body: JSON.stringify({ password })
-                    });
+                        const data = await response.json();
 
-                    const data = await response.json();
-
-                    if (data.valid) {
-                        unlock_password.classList.remove('unlock-password');
-                        unlock_password.classList.add('unlock-password-success');
-
-                        tokenField.style.display = 'block';
-
-                        // unlockBtn.classList.add('hide');
-                        tokenField.readOnly = false;
-                    } else {
-                        alert('Incorrect password');
+                        if (data.valid) {
+                            unlock_password.classList.remove('unlock-password');
+                            unlock_password.classList.add('unlock-password-success');
+                            unlock_password.readOnly = true;
+                            unlock_btn.style.display = 'none';
+                            lock.style.display = 'none';
+                            lock_success.style.display = 'inline-flex';
+                            tokenField.style.display = 'block';
+                            tokenField.readOnly = false;
+                        } else {
+                            alert('Incorrect password');
+                        }
+                    } catch (err) {
+                        alert('Something went wrong. Please try again.');
+                    } finally {
+                        // Always hide spinner and re-enable button
+                        spinner.classList.remove('active');
+                        unlock_btn.disabled = false;
                     }
-                }
 
-                else {
+                } else {
                     alert('Password required!');
                 }
             });

@@ -29,6 +29,7 @@ urlpatterns = [
     path('', include('training.urls')),
     path('', include('pdf_reports.urls')),
     path('', include('users.urls')),
+    path('', include('post.urls')),
 ]
 
 if settings.DEBUG:

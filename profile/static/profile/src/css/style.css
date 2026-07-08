@@ -58,8 +58,8 @@
 } */
 
 .sidebar-img {
-    width: 75%;
-    aspect-ratio: 1/1;
+    width: 200px;
+    /* aspect-ratio: 1/1; */
     border-radius: 50%;
     border: 1px solid var(--border);
     background: linear-gradient(135deg, #21262d, #0d1117);
@@ -573,37 +573,6 @@ hr {
     color: var(--text-muted)
 }
 
-.icon-btn {
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-
-    width: 28px;
-    height: 28px;
-
-    color: #c9d1d9;
-    /* background: #0d1117; */
-
-    border: 1px solid #999;
-    border-radius: 6px;
-
-    text-decoration: none;
-
-    font-size: 14px;
-    font-weight: 600;
-    line-height: 1;
-
-    cursor: pointer;
-
-    transition: 0.2s ease;
-}
-
-/* Hover */
-.icon-btn:hover {
-    /* background: #161b22; */
-    border-color: #58a6ff;
-    color: #58a6ff;
-}
 
 /* Edit variant */
 .icon-btn.edit:hover {
@@ -1245,7 +1214,7 @@ dialog:not([open]) {
     margin-bottom: 10px;
 }
 
-.lock .unlock-password{
+.lock .unlock-password {
     padding: 6px 8px;
     color: white;
     border: 1px solid var(--border);
@@ -1255,7 +1224,17 @@ dialog:not([open]) {
     transition: border-color 0.3s ease;
 }
 
-.lock .unlock-password-success{
+[data-theme="light"] .lock .unlock-password {
+    padding: 6px 8px;
+    color: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    font-size: 14px;
+    background-color: white;
+    transition: border-color 0.3s ease;
+}
+
+.lock .unlock-password-success {
     padding: 6px 8px;
     color: white;
     border: 1px solid #10b981;
@@ -1265,7 +1244,13 @@ dialog:not([open]) {
     transition: border-color 0.3s ease;
 }
 
-.lock button[type="button"]{
+[data-theme="light"] .lock .unlock-password-success {
+    background-color: white;
+    color: #0d1117;
+}
+
+
+.lock button[type="button"] {
     padding: 6px 8px;
     color: white;
     border: 1px solid var(--border);
@@ -1275,20 +1260,63 @@ dialog:not([open]) {
     cursor: pointer;
 }
 
-.lock button[type="button"]:hover{
+.lock button[type="button"]:hover {
     padding: 6px 8px;
     color: white;
     border: 1px solid var(--border);
     border-radius: 6px;
     font-size: 14px;
-    background-color: var(--border);
+    background-color: #000;
     cursor: pointer;
     transition: 0.3s ease;
-
 }
 
-#github-token input:focus {
-    border-color: white;
-    outline: none;
-    box-shadow: 0 0 5px rgba(3, 102, 214, 0.3);
+.spinner {
+    display: none;
+    width: 18px;
+    height: 18px;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    margin-left: 8px;
+    vertical-align: middle;
 }
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner.active {
+    display: inline-block;
+}
+
+.lock-success {
+    display: none; 
+    align-items: center;  
+    gap: 4px;             
+    color: #238636;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.lock-success svg {
+    flex-shrink: 0;
+    display: block; 
+}
+
+.checkmark {
+    stroke-dasharray: 30;
+    stroke-dashoffset: -30;
+    animation: draw-check 0.9s ease forwards;
+}
+
+@keyframes draw-check {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+

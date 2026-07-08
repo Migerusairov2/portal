@@ -14,4 +14,4 @@ class CustomAccountAdapter(DefaultAccountAdapter):
         ):
             return reverse("set_password")
 
-        return reverse("profile")
+        return reverse("post_list")

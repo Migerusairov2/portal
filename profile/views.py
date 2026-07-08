@@ -300,7 +300,7 @@ def edit_trajectory(request, trajectory_id):
         trajectory.job_position = request.POST.get("job_position")
         trajectory.description = request.POST.get("description")
         trajectory.date_start = request.POST.get("date_start")
-        trajectory.date_end = request.POST.get("date_end")
+        trajectory.date_end = request.POST.get("date_end") or None
         trajectory.save()
     return redirect("edit_profile")
 

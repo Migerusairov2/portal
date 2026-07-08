@@ -32,13 +32,6 @@
                 <img src="{{ avatar }}" alt="Profile Picture" class="sidebar-img" />
                 {% endif %}
             </div>
-            <!-- <div>
-                {% if user.is_authenticated %}
-                <a href="{% url 'edit_profile' %}" class="btn-editprofile"
-                    style="width: 100%; justify-content: center;">Edit Profile</a>
-                {% endif %}
-            </div> -->
-
 
             <div class="profile">
                 <h1>{{ profile.username }}</h1>
@@ -108,6 +101,11 @@
         </aside>
 
         <main>
+            {% if user.is_authenticated %}
+            <button class="button-container" onclick="window.location.href='{% url 'edit_profile' %}'">
+                Edit Profile
+            </button>
+            {% endif %}
             <div class="tabs">
                 <div class="tab active" data-tab="overview">Overview</div>
                 <div class="tab" data-tab="projects">Projects</div>
@@ -196,7 +194,11 @@
                         <div>
                             <i>
                                 <p style="font-size: 12px; font-weight: 400; color: var(--text-muted)">
-                                    {{ trajectory.date_start }} - {{ trajectory.date_end }}
+                                    {{ trajectory.date_start }} - {% if trajectory.date_end %}
+                                    {{ trajectory.date_end }}
+                                    {% else %}
+                                    Current
+                                    {% endif %}
                                 </p>
                             </i>
                         </div>
@@ -359,7 +361,7 @@
 
 
     <script src="{% static 'src/js/base.js' %}"></script>
-    <script src="{% static 'profile/src/js/js.js' %}"></script>
+    <script src="{% static 'profile/src/js/profile.js' %}"></script>
 </body>
 
 </html>

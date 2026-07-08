@@ -5,7 +5,13 @@
             class="cursor">_</span>
     </div>
     <nav class="modern-nav" id="mainNav">
-
+        {% if user.is_authenticated %}
+        <ul>
+            <li class="{% if request.resolver_match.url_name == 'post_list' %}active{% endif %}">
+                <a href="{% url 'post_list' %}">Forum</a>
+            </li>
+        </ul>
+        {% endif %}
         <ul>
             {% if not user.is_authenticated %}
             <span class="label-menu">Menu</span>
@@ -15,6 +21,9 @@
 
             <li class="{% if request.resolver_match.url_name == 'trainings' %}active{% endif %}">
                 <a href="{% url 'trainings' %}">Trainings & Certifications</a>
+            </li>
+            <li class="{% if request.resolver_match.url_name == 'post_list' %}active{% endif %}">
+                <a href="{% url 'post_list' %}">Forum</a>
             </li>
             <li> <a href="{% url 'pdf_report' %}" class="cv" target="_blank">
                     <span>CV</span>
@@ -26,6 +35,7 @@
                     </div>
                 </a>
             </li>
+
 
             {% endif %}
 
@@ -46,10 +56,6 @@
         </div>
         {% endif %}
 
-        <!-- <button class="icon-btn" onclick="passwordDialog.showModal()">
-            
-        </button> -->
-
         <button class="icon-btn" id="themeBtn" title="Toggle Theme">
             <svg class="moon-icon" viewBox="0 0 16 16">
                 <path
@@ -66,10 +72,21 @@
         {% endif %}
 
         {% if user.is_authenticated %}
+
         <div class="dropdown">
             <button class="dropdown-toggle dropdown-trigger">
+
+                {% if user.profile.profile %}
+                <span>
+                    <img class="avatar" src="{{ user.profile.profile.url }}">
+                </span>
+                {% else %}
                 <span class="avatar">{{ user.username|first|upper }}</span>
+                {% endif %}
+
+
                 {{ user.username }}
+
                 <svg width="10" height="10" viewBox="0 0 16 16" style="opacity:0.6;fill:currentColor;flex-shrink:0">
                     <path
                         d="M4.427 7.427l3.396 3.396a.25.25 0 00.354 0l3.396-3.396A.25.25 0 0011.396 7H4.604a.25.25 0 00-.177.427z" />
@@ -81,9 +98,7 @@
                 <button class="dropdown-profile" onclick="window.location.href='{% url 'profile' %}'">
                     Account Profile
                 </button>
-                <button class="dropdown-profile" onclick="window.location.href='{% url 'edit_profile' %}'">
-                    Edit Profile
-                </button>
+
                 <button class="dropdown-profile" onclick="window.location.href='{% url 'change_password' %}'">
                     Change password
                 </button>

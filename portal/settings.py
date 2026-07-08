@@ -61,6 +61,7 @@ INSTALLED_APPS = [
     'training',
     'pdf_reports',
     'users',
+    'post'
     ]
 
 SITE_ID = 1
@@ -171,7 +172,7 @@ EMAIL_HOST_PASSWORD = 'lycv khdc ekqa jhgi'   # use env vars in production
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 # ACCOUNT_EMAIL_CONFIRMATION_ANONYMOUS_REDIRECT_URL = '/accounts/login/'
-LOGIN_REDIRECT_URL = 'profile'
+LOGIN_REDIRECT_URL = 'post_list'
 LOGOUT_REDIRECT_URL = '/accounts/login/'
 LOGIN_URL = 'account_login'
 ACCOUNT_EMAIL_REQUIRED = True

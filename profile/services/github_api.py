@@ -1,16 +1,12 @@
 import os
 import requests
 from dotenv import load_dotenv
-<<<<<<< Updated upstream
 
-=======
->>>>>>> Stashed changes
 from django.contrib.auth.models import User 
 from profile.models import Profile
 
 load_dotenv()
 
-<<<<<<< Updated upstream
 # superuser = User.objects.filter(is_superuser=True).first()
 # profile, created = Profile.objects.get_or_create(user=superuser)
 
@@ -42,7 +38,8 @@ def get_headers(user):
 def fetch_personal_repositories(user):
 
     headers = get_headers(user)
-=======
+    print('headers', headers)
+    
 superuser = User.objects.filter(is_superuser=True).first()
 profile, created = Profile.objects.get_or_create(user=superuser)
 
@@ -58,7 +55,6 @@ headers = {
 
 
 def fetch_personal_repositories():
->>>>>>> Stashed changes
 
     url = "https://api.github.com/user/repos"
 
@@ -75,20 +71,19 @@ def fetch_personal_repositories():
         timeout=10
     )
 
+    print('response', response)
+
     return response.json()
 
 GITHUB_API = "https://api.github.com"
 
-<<<<<<< Updated upstream
 def fetch_commits(user, owner, repo):
     headers = get_headers(user)
-=======
 def fetch_commits(owner, repo):
->>>>>>> Stashed changes
     url = f"{GITHUB_API}/repos/{owner}/{repo}/commits?per_page=100"
-    r = requests.get(url, headers=headers, timeout=30)
+    response = requests.get(url, headers=headers, timeout=30)
 
-    if r.status_code != 200:
+    if response.status_code != 200:
         return []
 
-    return r.json()
+    return response.json()
