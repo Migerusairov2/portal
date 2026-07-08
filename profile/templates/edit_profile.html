@@ -26,16 +26,17 @@
         <div class="container">
             <aside class="sidebar">
                 <div class="avatar-container">
-                    <div style="text-align: center;">
-                        {% if profile.profile %}
-                        <img src="{{ profile.profile.url }}" class="sidebar-img">
-                        {% endif %}
+                    <img id="profile-preview" src="{% if profile.profile %}{{ profile.profile.url }}{% endif %}"
+                        class="sidebar-img">
+
+                    <div class="avatar-actions">
                         <label for="id_profile" class="btn-editprofile">
-                            Edit Profile
+                            Avatar
                         </label>
+
+                        {{ form.profile }}
                     </div>
                 </div>
-                {{ form.profile }}
                 <div class="profile">
                     <h1>{{ profile.user.username }}</h1>
                     <p>{{ profile.user.email}}</p>
@@ -295,15 +296,22 @@
 
                 <div class="tab-content" id="github">
                     <div class="lock">
+                        <i><span style="color: #777; font-size: 14px;">unlock and paste your github token and update repositories to fetch your github public repositories.</span></i>
+                        <a href="https://github.com/settings/personal-access-tokens" target="_blank" style="text-decoration: none; font-size: 12px;">Create Github Token</a>
+
+                        <br>
+                        <br>
                         <label for="unlock_password">Password</label>
                         <input type="password" id="unlock_password" class="unlock-password" placeholder="Your password">
-                        <button type="button" id="unlock-btn">Unlock <span class="spinner"></span></button>
+                        <button type="button" id="unlock-btn">Unlock<span class="spinner"></span></button>
                     </div>
 
-                    <div>
+                    <div class="lock-success">
+                        <span>verified</span>
+
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
                             stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <polyline points="20 6 9 17 4 12" />
+                            <polyline class="checkmark" points="20 6 9 17 4 12" style="color: #238636;" />
                         </svg>
                     </div>
 
@@ -370,6 +378,8 @@
         document.addEventListener('DOMContentLoaded', function () {
             const tokenField = document.querySelector('#github-token input');
             const unlock_btn = document.getElementById('unlock-btn');
+            const lock = document.querySelector('.lock');
+            const lock_success = document.querySelector('.lock-success');
 
             tokenField.readOnly = true;
             tokenField.style.display = 'none';
@@ -384,7 +394,6 @@
                 const password = unlock_password.value;
 
                 if (password) {
-                    // Show spinner, disable button
                     spinner.classList.add('active');
                     unlock_btn.disabled = true;
 
@@ -405,6 +414,8 @@
                             unlock_password.classList.add('unlock-password-success');
                             unlock_password.readOnly = true;
                             unlock_btn.style.display = 'none';
+                            lock.style.display = 'none';
+                            lock_success.style.display = 'inline-flex';
                             tokenField.style.display = 'block';
                             tokenField.readOnly = false;
                         } else {

@@ -58,8 +58,8 @@
 } */
 
 .sidebar-img {
-    width: 75%;
-    aspect-ratio: 1/1;
+    width: 200px;
+    /* aspect-ratio: 1/1; */
     border-radius: 50%;
     border: 1px solid var(--border);
     background: linear-gradient(135deg, #21262d, #0d1117);
@@ -1271,12 +1271,6 @@ dialog:not([open]) {
     transition: 0.3s ease;
 }
 
-#github-token input:focus {
-    border-color: white;
-    outline: none;
-    box-shadow: 0 0 5px rgba(3, 102, 214, 0.3);
-}
-
 .spinner {
     display: none;
     width: 18px;
@@ -1298,3 +1292,31 @@ dialog:not([open]) {
 .spinner.active {
     display: inline-block;
 }
+
+.lock-success {
+    display: none; 
+    align-items: center;  
+    gap: 4px;             
+    color: #238636;
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.lock-success svg {
+    flex-shrink: 0;
+    display: block; 
+}
+
+.checkmark {
+    stroke-dasharray: 30;
+    stroke-dashoffset: -30;
+    animation: draw-check 0.9s ease forwards;
+}
+
+@keyframes draw-check {
+    to {
+        stroke-dashoffset: 0;
+    }
+}
+

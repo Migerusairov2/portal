@@ -101,6 +101,11 @@
         </aside>
 
         <main>
+            {% if user.is_authenticated %}
+            <button class="button-container" onclick="window.location.href='{% url 'edit_profile' %}'">
+                Edit Profile
+            </button>
+            {% endif %}
             <div class="tabs">
                 <div class="tab active" data-tab="overview">Overview</div>
                 <div class="tab" data-tab="projects">Projects</div>

@@ -1,0 +1,39 @@
+<img src="{{ post.user.profile.profile.url }}" alt="" width="20px">
+<small>{{ post.user }}</small>
+<br>
+<small>posted on {{ post.created_at }}</small>
+<p>{{ post.caption }}</p>
+
+{% if post.images.all %}
+<div class="post-images">
+  {% for img in post.images.all %}
+  <a class="post-image-link" href="{% url 'post_detail' post.id %}">
+    <img src="{{ img.image.url }}" alt="">
+  </a>
+  {% endfor %}
+</div>
+{% endif %}
+<p>{{ post.heart }}</p>
+
+<hr>
+
+<h3>Comments</h3>
+{% for comment in comments %}
+<div class="comment">
+  <strong>{{ comment.user }}</strong>: {{ comment.text }}
+  <br><small>{{ comment.created_at }}</small>
+</div>
+{% empty %}
+<p>No comments yet.</p>
+{% endfor %}
+
+{% if user.is_authenticated %}
+<form method="post" action="{% url 'add_comment' post.id %}">
+  {% csrf_token %}
+  <input type="hidden" name="next" value="{% url 'post_detail' post.id %}">
+  <textarea name="comment" placeholder="Write a comment..." required></textarea>
+  <button type="submit">Post Comment</button>
+</form>
+{% else %}
+<p><a href="{% url 'account_login' %}?next={{ request.path }}">Sign in</a> to comment.</p>
+{% endif %}

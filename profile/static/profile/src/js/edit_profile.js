@@ -1,3 +1,28 @@
+
+document.addEventListener("DOMContentLoaded", () => {
+    const input = document.getElementById("id_profile");
+    const preview = document.getElementById("profile-preview");
+
+    if (!input || !preview) return;
+
+    input.addEventListener("change", (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        if (!file.type.startsWith("image/")) {
+            alert("Please select an image.");
+            input.value = "";
+            return;
+        }
+
+        preview.src = URL.createObjectURL(file);
+
+        preview.onload = () => {
+            URL.revokeObjectURL(preview.src);
+        };
+    });
+});
+
 function previewImages(input) {
     const previewContainer = document.getElementById('imagePreviewContainer');
     const captionInputs = document.getElementById('captionInputs');
